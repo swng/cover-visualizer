@@ -165,6 +165,7 @@ document.getElementById('queue').addEventListener('keyup', (event) => {
     queue = queue.replace(/[^LJIOSZT]/g, ''); // only allow characters that are tetraminoes in the queue
     
     console.log(`Searching with queue '${queue}'`);
+    document.getElementById('queue').value = queue;
 
     if (document.getElementById('mirror').checked) {
         mirrored_queue = "";
