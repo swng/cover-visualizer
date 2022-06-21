@@ -1,0 +1,41 @@
+<html>
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+	<script src="./utils/jquery-csv.js"></script>
+
+	<script src="./utils/tetris-fumen.js"></script>
+	<script type="text/javascript" src="./utils/LZWEncoder.js"></script>
+	<script type="text/javascript" src="./utils/NeuQuant.js"></script>
+	<script type="text/javascript" src="./utils/GIFEncoder.js"></script>
+	<script type="text/javascript" src="./utils/b64.js"></script>
+
+	<script src="./utils/unglueFumen.js"></script>
+	<script src="./utils/fumen-render.js"></script>
+	<script defer src="./cover_visualizer.js"></script>
+	<head>
+		<title>Cover Visualizer</title>
+	</head>
+	<body>
+		<h1>Cover Visualizer</h1>
+		Import a cover.csv or choose a pre-included one.
+	</body>
+	<br />
+	<br />
+	<input type="file" id="file-selector" accept=".csv" onchange="loadFile()" />
+
+	<label for="files">Load a pre-included file:</label>
+	<select id="files" name="files">
+	</select>
+    <button type="button" onclick="loadIncludedFile()">Load</button>
+
+	<br />
+	<br />
+	See which queues apply to which solutions.
+	<br />
+	<br />
+
+	Queue:
+	<input type="text" id="queue" />
+	<br />
+	<br />
+	<div id="container"></div>
+</html>
