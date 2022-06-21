@@ -29,7 +29,27 @@ function loadFile() {
 			// console.log(reader.result);
 			data = $.csv.toArrays(reader.result);
 			console.log(data[0]);
-			console.log('Sample queue: ' + data[1][0]);
+            console.log('Sample queue: ' + data[1][0]);
+            
+            container = document.getElementById('setup preview');
+			while (container.firstChild) {
+				container.removeChild(container.firstChild);
+			}
+			fumen = data[0][1];
+			pages = decoder.decode(fumen);
+			pages[0].operation = undefined;
+
+			canvas = fumen_draw(pages[0], cellSize, height, transparency_fumen);
+
+			documentCanvas = document.createElement('canvas');
+			documentCanvas.style.padding = '18px';
+			container.appendChild(documentCanvas);
+
+			var ctx = documentCanvas.getContext('2d');
+			documentCanvas.height = canvas.height;
+			documentCanvas.width = canvas.width;
+
+			ctx.drawImage(canvas, 0, 0);
 		},
 		false
 	);
@@ -44,7 +64,7 @@ function loadFile() {
 }
 
 function loadIncludedFile() {
-	filename = document.getElementById('files').value; // .replace(/ /g, '%20') ?? 
+	filename = document.getElementById('files').value; // .replace(/ /g, '%20') ??
 	const url = window.location.href + 'cover_csvs/' + filename;
 	fetch(url)
 		.then((r) => r.text())
@@ -52,6 +72,26 @@ function loadIncludedFile() {
 			data = $.csv.toArrays(t);
 			console.log(data[0]);
 			console.log('Sample queue: ' + data[1][0]);
+
+			container = document.getElementById('setup preview');
+			while (container.firstChild) {
+				container.removeChild(container.firstChild);
+			}
+			fumen = data[0][1];
+			pages = decoder.decode(fumen);
+			pages[0].operation = undefined;
+
+			canvas = fumen_draw(pages[0], cellSize, height, transparency_fumen);
+
+			documentCanvas = document.createElement('canvas');
+			documentCanvas.style.padding = '18px';
+			container.appendChild(documentCanvas);
+
+			var ctx = documentCanvas.getContext('2d');
+			documentCanvas.height = canvas.height;
+			documentCanvas.width = canvas.width;
+
+			ctx.drawImage(canvas, 0, 0);
 		});
 }
 
