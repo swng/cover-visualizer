@@ -8,6 +8,7 @@
 	<script type="text/javascript" src="./utils/GIFEncoder.js"></script>
 	<script type="text/javascript" src="./utils/b64.js"></script>
 
+    <script src="./utils/mirrorFumen.js"></script>
 	<script src="./utils/unglueFumen.js"></script>
 	<script src="./utils/fumen-render.js"></script>
 	<script defer src="./cover_visualizer.js"></script>
@@ -23,16 +24,18 @@
 	<input type="file" id="file-selector" accept=".csv" onchange="loadFile()" />
 
 	<label for="files">Load a pre-included file:</label>
-	<select id="files" name="files">
-	</select>
-    <button type="button" onclick="loadIncludedFile()">Load</button>
+	<select id="files" name="files"></select>
+	<button type="button" onclick="loadIncludedFile()">Load</button>
 
-    <div id="setup preview"></div>
+	<div id="setup preview"></div>
+	<br />
+	<input type="checkbox" id="mirror" name="mirror" value = false />
+	<label for="mirror"> Mirror</label
+	><br />
 	<br />
 	See which queues apply to which solutions.
 	<br />
 	<br />
-    
 
 	Queue:
 	<input type="text" id="queue" />
