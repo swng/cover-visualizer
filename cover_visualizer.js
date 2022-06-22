@@ -39,12 +39,11 @@ function loadFile() {
 			fumen = data[0][1];
 			pages = decoder.decode(fumen);
 			pages[0].operation = undefined;
-            setup = encoder.encode([pages[0]]);
+			setup = encoder.encode([pages[0]]);
 
-            if (document.getElementById('mirror').checked) {
-                canvas = fumen_draw(decoder.decode(mirrorFumen([setup])[0])[0], cellSize, height, transparency_fumen);
-            }
-            else canvas = fumen_draw(pages[0], cellSize, height, transparency_fumen);
+			if (document.getElementById('mirror').checked) {
+				canvas = fumen_draw(decoder.decode(mirrorFumen([setup])[0])[0], cellSize, height, transparency_fumen);
+			} else canvas = fumen_draw(pages[0], cellSize, height, transparency_fumen);
 
 			documentCanvas = document.createElement('canvas');
 			documentCanvas.style.padding = '18px';
@@ -70,7 +69,7 @@ function loadFile() {
 
 function loadIncludedFile() {
 	filename = document.getElementById('files').value; // .replace(/ /g, '%20') ??
-	const url = window.location.href.replace("index.html", "") + 'cover_csvs/' + filename;
+	const url = window.location.href.replace('index.html', '') + 'cover_csvs/' + filename;
 	fetch(url)
 		.then((r) => r.text())
 		.then((t) => {
@@ -88,9 +87,8 @@ function loadIncludedFile() {
 			setup = encoder.encode([pages[0]]);
 
 			if (document.getElementById('mirror').checked) {
-                canvas = fumen_draw(decoder.decode(mirrorFumen([setup])[0])[0], cellSize, height, transparency_fumen);
-            }
-            else canvas = fumen_draw(pages[0], cellSize, height, transparency_fumen);
+				canvas = fumen_draw(decoder.decode(mirrorFumen([setup])[0])[0], cellSize, height, transparency_fumen);
+			} else canvas = fumen_draw(pages[0], cellSize, height, transparency_fumen);
 
 			documentCanvas = document.createElement('canvas');
 			documentCanvas.style.padding = '18px';
@@ -106,8 +104,8 @@ function loadIncludedFile() {
 
 document.getElementById('mirror').addEventListener('change', (e) => {
 	if (e.target.checked) {
-        console.log('mirrored orientation');
-        container = document.getElementById('setup preview');
+		console.log('mirrored orientation');
+		container = document.getElementById('setup preview');
 		while (container.firstChild) {
 			container.removeChild(container.firstChild);
 		}
@@ -124,8 +122,8 @@ document.getElementById('mirror').addEventListener('change', (e) => {
 		documentCanvas.width = canvas.width;
 
 		ctx.drawImage(canvas, 0, 0);
-    } else {
-        console.log('standard orientation');
+	} else {
+		console.log('standard orientation');
 		container = document.getElementById('setup preview');
 		while (container.firstChild) {
 			container.removeChild(container.firstChild);
@@ -146,6 +144,52 @@ document.getElementById('mirror').addEventListener('change', (e) => {
 	}
 });
 
+document.addEventListener('keyup', (event) => {
+	if (event.key == 'm') {
+		document.getElementById('mirror').checked ^= true;
+
+		if (document.getElementById('mirror').checked) {
+			console.log('mirrored orientation');
+			container = document.getElementById('setup preview');
+			while (container.firstChild) {
+				container.removeChild(container.firstChild);
+			}
+			pages = decoder.decode(mirrorFumen([setup])[0]);
+
+			canvas = fumen_draw(pages[0], cellSize, height, transparency_fumen);
+
+			documentCanvas = document.createElement('canvas');
+			documentCanvas.style.padding = '18px';
+			container.appendChild(documentCanvas);
+
+			var ctx = documentCanvas.getContext('2d');
+			documentCanvas.height = canvas.height;
+			documentCanvas.width = canvas.width;
+
+			ctx.drawImage(canvas, 0, 0);
+		} else {
+			console.log('standard orientation');
+			container = document.getElementById('setup preview');
+			while (container.firstChild) {
+				container.removeChild(container.firstChild);
+			}
+			pages = decoder.decode(setup);
+
+			canvas = fumen_draw(pages[0], cellSize, height, transparency_fumen);
+
+			documentCanvas = document.createElement('canvas');
+			documentCanvas.style.padding = '18px';
+			container.appendChild(documentCanvas);
+
+			var ctx = documentCanvas.getContext('2d');
+			documentCanvas.height = canvas.height;
+			documentCanvas.width = canvas.width;
+
+			ctx.drawImage(canvas, 0, 0);
+		}
+	}
+});
+
 document.getElementById('queue').addEventListener('keyup', (event) => {
 	if (event.key !== 'Enter') return; // Use `.key` instead.
 
@@ -162,18 +206,18 @@ document.getElementById('queue').addEventListener('keyup', (event) => {
 		return;
 	}
 
-    queue = queue.replace(/[^LJIOSZT]/g, ''); // only allow characters that are tetraminoes in the queue
-    
-    console.log(`Searching with queue '${queue}'`);
-    document.getElementById('queue').value = queue;
+	queue = queue.replace(/[^LJIOSZT]/g, ''); // only allow characters that are tetraminoes in the queue
 
-    if (document.getElementById('mirror').checked) {
-        mirrored_queue = "";
-        for (char of queue) {
-            mirrored_queue += reverseMappingLetters[char];
-        }
-        queue = mirrored_queue;
-    }
+	console.log(`Searching with queue '${queue}'`);
+	document.getElementById('queue').value = queue;
+
+	if (document.getElementById('mirror').checked) {
+		mirrored_queue = '';
+		for (char of queue) {
+			mirrored_queue += reverseMappingLetters[char];
+		}
+		queue = mirrored_queue;
+	}
 
 	expected_length = data[1][0].length;
 
@@ -191,9 +235,9 @@ document.getElementById('queue').addEventListener('keyup', (event) => {
 					if (entry[i] == 'O') solutions.push(data[0][i]);
 				}
 
-                solutions = unglueFumen(solutions);
-                
-                if (document.getElementById('mirror').checked) solutions = mirrorFumen(solutions);
+				solutions = unglueFumen(solutions);
+
+				if (document.getElementById('mirror').checked) solutions = mirrorFumen(solutions);
 
 				fumenrender(solutions);
 
@@ -217,9 +261,9 @@ document.getElementById('queue').addEventListener('keyup', (event) => {
 			}
 		});
 
-        solutions = unglueFumen(solutions_set);
-        
-        if (document.getElementById('mirror').checked) solutions = mirrorFumen(solutions);
+		solutions = unglueFumen(solutions_set);
+
+		if (document.getElementById('mirror').checked) solutions = mirrorFumen(solutions);
 
 		fumenrender(solutions);
 
