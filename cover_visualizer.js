@@ -199,9 +199,11 @@ document.getElementById('queue').addEventListener('keyup', (event) => {
 
 	if (queue == 'ALL') {
 		solutions = data[0].slice(1);
-		solutions = unglueFumen(solutions);
+        solutions = unglueFumen(solutions);
+        
+        container = document.getElementById('container');
 
-		fumenrender(solutions);
+		fumenrender(solutions, container);
 
 		return;
 	}
@@ -211,7 +213,7 @@ document.getElementById('queue').addEventListener('keyup', (event) => {
 	console.log(`Searching with queue '${queue}'`);
 	document.getElementById('queue').value = queue;
 
-	if (document.getElementById('mirror').checked) {
+	if (document.getElementById('mirror').checked) { // mirror the queue we're searching the data with 
 		mirrored_queue = '';
 		for (char of queue) {
 			mirrored_queue += reverseMappingLetters[char];
@@ -237,9 +239,11 @@ document.getElementById('queue').addEventListener('keyup', (event) => {
 
 				solutions = unglueFumen(solutions);
 
-				if (document.getElementById('mirror').checked) solutions = mirrorFumen(solutions);
+                if (document.getElementById('mirror').checked) solutions = mirrorFumen(solutions);
+                
+                container = document.getElementById('container');
 
-				fumenrender(solutions);
+				fumenrender(solutions, container);
 
 				if (solutions.length == 0) console.log('No valid solutions for this queue.');
 				return;
@@ -263,12 +267,13 @@ document.getElementById('queue').addEventListener('keyup', (event) => {
 
 		solutions = unglueFumen(solutions_set);
 
-		if (document.getElementById('mirror').checked) solutions = mirrorFumen(solutions);
+        if (document.getElementById('mirror').checked) solutions = mirrorFumen(solutions);
+        
+        container = document.getElementById('container');
 
-		fumenrender(solutions);
+		fumenrender(solutions, container);
 
 		if (solutions.length == 0) console.log('No valid solutions for this queue.');
-		return;
 
 		if (!found) console.log('Unsupported queue.');
 	}

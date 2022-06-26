@@ -147,8 +147,7 @@ delay = 500;
 start = 0;
 end = undefined;
 
-function fumenrender(fumenCodes) {
-	var container = document.getElementById('container');
+function fumenrender(fumenCodes, container) {
 	while (container.firstChild) {
 		container.removeChild(container.firstChild);
 	}
