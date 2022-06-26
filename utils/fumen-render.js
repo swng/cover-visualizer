@@ -168,7 +168,7 @@ function fumenrender(fumenCodes, container) {
 
                 ctx.drawImage(canvas, 0, 0);
 
-                documentCanvas.style.border = '5px solid #555';
+                // documentCanvas.style.border = '5px solid #555';
             }
             if (pages.length > 1) {
                 gif = fumen_drawFumens(pages, cellSize, height, start, end, transparency_fumen);
@@ -179,7 +179,7 @@ function fumenrender(fumenCodes, container) {
                 img.style.padding = '18px';
                 img.src = data_url;
 
-                img.style.border = '5px solid #555';
+                // img.style.border = '5px solid #555';
 
                 container.appendChild(img);
             }

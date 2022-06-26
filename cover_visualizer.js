@@ -33,27 +33,15 @@ function loadFile() {
 			console.log('Sample queue: ' + data[1][0]);
 
 			container = document.getElementById('setup preview');
-			while (container.firstChild) {
-				container.removeChild(container.firstChild);
-			}
+
 			fumen = data[0][1];
 			pages = decoder.decode(fumen);
 			pages[0].operation = undefined;
 			setup = encoder.encode([pages[0]]);
 
-			if (document.getElementById('mirror').checked) {
-				canvas = fumen_draw(decoder.decode(mirrorFumen([setup])[0])[0], cellSize, height, transparency_fumen);
-			} else canvas = fumen_draw(pages[0], cellSize, height, transparency_fumen);
-
-			documentCanvas = document.createElement('canvas');
-			documentCanvas.style.padding = '18px';
-			container.appendChild(documentCanvas);
-
-			var ctx = documentCanvas.getContext('2d');
-			documentCanvas.height = canvas.height;
-			documentCanvas.width = canvas.width;
-
-			ctx.drawImage(canvas, 0, 0);
+            if (document.getElementById('mirror').checked) {
+                fumenrender(mirrorFumen([setup]), container);
+			} else fumenrender([setup], container);
 		},
 		false
 	);
@@ -78,120 +66,49 @@ function loadIncludedFile() {
 			console.log('Sample queue: ' + data[1][0]);
 
 			container = document.getElementById('setup preview');
-			while (container.firstChild) {
-				container.removeChild(container.firstChild);
-			}
+
 			fumen = data[0][1];
 			pages = decoder.decode(fumen);
 			pages[0].operation = undefined;
 			setup = encoder.encode([pages[0]]);
 
 			if (document.getElementById('mirror').checked) {
-				canvas = fumen_draw(decoder.decode(mirrorFumen([setup])[0])[0], cellSize, height, transparency_fumen);
-			} else canvas = fumen_draw(pages[0], cellSize, height, transparency_fumen);
-
-			documentCanvas = document.createElement('canvas');
-			documentCanvas.style.padding = '18px';
-			container.appendChild(documentCanvas);
-
-			var ctx = documentCanvas.getContext('2d');
-			documentCanvas.height = canvas.height;
-			documentCanvas.width = canvas.width;
-
-			ctx.drawImage(canvas, 0, 0);
+				fumenrender(mirrorFumen([setup]), container);
+            } else fumenrender([setup], container);
+            
 		});
 }
 
 document.getElementById('mirror').addEventListener('change', (e) => {
+    container = document.getElementById('setup preview');
 	if (e.target.checked) {
 		console.log('mirrored orientation');
-		container = document.getElementById('setup preview');
-		while (container.firstChild) {
-			container.removeChild(container.firstChild);
-		}
-		pages = decoder.decode(mirrorFumen([setup])[0]);
-
-		canvas = fumen_draw(pages[0], cellSize, height, transparency_fumen);
-
-		documentCanvas = document.createElement('canvas');
-		documentCanvas.style.padding = '18px';
-		container.appendChild(documentCanvas);
-
-		var ctx = documentCanvas.getContext('2d');
-		documentCanvas.height = canvas.height;
-		documentCanvas.width = canvas.width;
-
-		ctx.drawImage(canvas, 0, 0);
+        fumenrender(mirrorFumen([setup]), container);
 	} else {
 		console.log('standard orientation');
-		container = document.getElementById('setup preview');
-		while (container.firstChild) {
-			container.removeChild(container.firstChild);
-		}
-		pages = decoder.decode(setup);
-
-		canvas = fumen_draw(pages[0], cellSize, height, transparency_fumen);
-
-		documentCanvas = document.createElement('canvas');
-		documentCanvas.style.padding = '18px';
-		container.appendChild(documentCanvas);
-
-		var ctx = documentCanvas.getContext('2d');
-		documentCanvas.height = canvas.height;
-		documentCanvas.width = canvas.width;
-
-		ctx.drawImage(canvas, 0, 0);
+		fumenrender([setup], container);
 	}
 });
 
 document.addEventListener('keyup', (event) => {
 	if (event.key == 'm') {
-		document.getElementById('mirror').checked ^= true;
+        document.getElementById('mirror').checked ^= true;
+        container = document.getElementById('setup preview');
 
 		if (document.getElementById('mirror').checked) {
 			console.log('mirrored orientation');
-			container = document.getElementById('setup preview');
-			while (container.firstChild) {
-				container.removeChild(container.firstChild);
-			}
-			pages = decoder.decode(mirrorFumen([setup])[0]);
-
-			canvas = fumen_draw(pages[0], cellSize, height, transparency_fumen);
-
-			documentCanvas = document.createElement('canvas');
-			documentCanvas.style.padding = '18px';
-			container.appendChild(documentCanvas);
-
-			var ctx = documentCanvas.getContext('2d');
-			documentCanvas.height = canvas.height;
-			documentCanvas.width = canvas.width;
-
-			ctx.drawImage(canvas, 0, 0);
+			fumenrender(mirrorFumen([setup]), container);
 		} else {
 			console.log('standard orientation');
-			container = document.getElementById('setup preview');
-			while (container.firstChild) {
-				container.removeChild(container.firstChild);
-			}
-			pages = decoder.decode(setup);
-
-			canvas = fumen_draw(pages[0], cellSize, height, transparency_fumen);
-
-			documentCanvas = document.createElement('canvas');
-			documentCanvas.style.padding = '18px';
-			container.appendChild(documentCanvas);
-
-			var ctx = documentCanvas.getContext('2d');
-			documentCanvas.height = canvas.height;
-			documentCanvas.width = canvas.width;
-
-			ctx.drawImage(canvas, 0, 0);
+			fumenrender([setup], container);
 		}
 	}
 });
 
 document.getElementById('queue').addEventListener('keyup', (event) => {
-	if (event.key !== 'Enter') return; // Use `.key` instead.
+    if (event.key !== 'Enter') return; // Use `.key` instead.
+    
+    container = document.getElementById('container');
 
 	queue = document.getElementById('queue').value;
 
@@ -200,11 +117,8 @@ document.getElementById('queue').addEventListener('keyup', (event) => {
 	if (queue == 'ALL') {
 		solutions = data[0].slice(1);
         solutions = unglueFumen(solutions);
+        fumenrender(solutions, container);
         
-        container = document.getElementById('container');
-
-		fumenrender(solutions, container);
-
 		return;
 	}
 
@@ -240,8 +154,6 @@ document.getElementById('queue').addEventListener('keyup', (event) => {
 				solutions = unglueFumen(solutions);
 
                 if (document.getElementById('mirror').checked) solutions = mirrorFumen(solutions);
-                
-                container = document.getElementById('container');
 
 				fumenrender(solutions, container);
 
@@ -268,8 +180,6 @@ document.getElementById('queue').addEventListener('keyup', (event) => {
 		solutions = unglueFumen(solutions_set);
 
         if (document.getElementById('mirror').checked) solutions = mirrorFumen(solutions);
-        
-        container = document.getElementById('container');
 
 		fumenrender(solutions, container);
 
