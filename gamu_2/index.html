@@ -1,0 +1,93 @@
+<html>
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+	<script src="../utils/jquery-csv.js"></script>
+
+	<script src="../utils/tetris-fumen.js"></script>
+	<script type="text/javascript" src="../utils/LZWEncoder.js"></script>
+	<script type="text/javascript" src="../utils/NeuQuant.js"></script>
+	<script type="text/javascript" src="../utils/GIFEncoder.js"></script>
+	<script type="text/javascript" src="../utils/b64.js"></script>
+
+    <script src="../utils/mirrorFumen.js"></script>
+	<script src="../utils/unglueFumen.js"></script>
+	<script src="../utils/fumen-render.js"></script>
+	<script defer src="./cover_visualizer.js"></script>
+	<head>
+		<title>Gamu 2</title>
+	</head>
+	<body>
+		<h1>Gamu 2</h1>
+		This is a setup that exists. Guide source: <a href="https://docs.google.com/document/d/1go4ohTLN54s3TDt9ZJ_lrzhpXYSyK254aehPY8zaVGE/edit#">mlurker's tech pages</a>. 
+        <br>
+        It was first documented as “Mountainous Stacking 2” by PandaEdit158/Agent 1568AH. It is very similar to Gamushiro Stacking: it grants reliable 8-line Perfect Clear chances or a favorable midgame board without the PC. It may be a viable alternative to Gamushiro, as it requires relatively less memorization and resolves in a flatter stack.
+	</body>
+	<br />
+	<br />
+
+    <input type="checkbox" id="mirror" name="mirror" value = false />
+	<label for="mirror"> Mirror</label>
+
+    <br>
+    <br>
+    It is always possible to stack the 1st bag this way (inc. mirror). The L-piece has the following 3 placements before the next bag.
+    <br>
+    <br>
+
+	<label for="bag 1 files">Load bag 1 setup:</label>
+	<select id="bag 1 files" name="bag 1 files"></select>
+	<button type="button" onclick="loadIncludedFile(1)">Load</button>
+
+	<div id="setup 1 preview"></div>
+	<br />
+	See which queues apply to which setups.
+	<br />
+	<br />
+
+	Queue:
+	<input type="text" id="bag 1 queue" />
+	<br />
+	<br />
+	<div id="container 1"></div>
+    <br />
+
+    The 2nd bag can always be stacked into one of 3 variants.
+    <br>
+    <br>
+
+    <label for="bag 2 files">Load bag 2 setup:</label>
+	<select id="bag 2 files" name="bag 2 files"></select>
+	<button type="button" onclick="loadIncludedFile(2)">Load</button>
+
+	<div id="setup 2 preview"></div>
+	<br />
+	See which queues apply to which setups.
+	<br />
+	<br />
+
+	Queue:
+	<input type="text" id="bag 2 queue" />
+	<br />
+	<br />
+	<div id="container 2"></div>
+    <br />
+
+    Complete an 8L PC on bag 3.
+    <br>
+    <br>
+    <label for="bag 3 files">Load bag 3 setup:</label>
+	<select id="bag 3 files" name="bag 3 files"></select>
+	<button type="button" onclick="loadIncludedFile(3)">Load</button>
+
+	<div id="setup 3 preview"></div>
+	<br />
+	See which queues apply to which setups.
+	<br />
+	<br />
+
+	Queue:
+	<input type="text" id="bag 3 queue" />
+	<br />
+	<br />
+	<div id="container 3"></div>
+    <br />
+</html>
