@@ -147,12 +147,11 @@ delay = 500;
 start = 0;
 end = undefined;
 
-function fumenrender(fumenCodes, container) {
+function fumenrender(fumenCodes, container, comments = undefined) {
 	while (container.firstChild) {
 		container.removeChild(container.firstChild);
 	}
-
-    for (let code of fumenCodes) {
+    fumenCodes.forEach((code, index) => {
         try {
             var pages = decoder.decode(code);
             if (pages.length == 1) {
@@ -160,6 +159,10 @@ function fumenrender(fumenCodes, container) {
 
                 documentCanvas = document.createElement('canvas');
                 documentCanvas.style.padding = '18px';
+                if (comments != undefined) {
+                    const node = document.createTextNode(comments[index]);
+                    container.appendChild(node);
+                }
                 container.appendChild(documentCanvas);
 
                 var ctx = documentCanvas.getContext('2d');
@@ -184,5 +187,5 @@ function fumenrender(fumenCodes, container) {
                 container.appendChild(img);
             }
         } catch (error) { console.log(code, error); }
-	}
+    });
 }
