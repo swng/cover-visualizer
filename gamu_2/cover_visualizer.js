@@ -31,7 +31,14 @@ function loadIncludedFile(bag_num) {
 		.then((t) => {
 			data[bag_num - 1] = $.csv.toArrays(t);
 			console.log(data[bag_num - 1][0]);
-			console.log('Sample queue: ' + data[bag_num - 1][1][0]);
+			if (document.getElementById('mirror').checked) {
+				queue = data[bag_num - 1][2][0];
+				mirrored_queue = '';
+				for (char of queue) {
+					mirrored_queue += reverseMappingLetters[char];
+				}
+				console.log('Sample queue: ' + mirrored_queue);
+			} else console.log('Sample queue: ' + data[bag_num - 1][2][0]);
 
 			container = document.getElementById(`setup ${bag_num} preview`);
 
@@ -105,6 +112,12 @@ function search(bag_num) {
 	console.log(`Searching with queue '${queue}'`);
 	document.getElementById(`bag ${bag_num} queue`).value = queue;
 
+	if (bag_num == 2) {
+		// allowing user to input just bag 2 without the saved L/J in hold from bag 1
+		if (queue[0] != 'L' && !document.getElementById('mirror').checked) queue = 'L' + queue;
+		if (queue[0] != 'J' && document.getElementById('mirror').checked) queue = 'J' + queue;
+	}
+
 	if (document.getElementById('mirror').checked) {
 		mirrored_queue = '';
 		for (char of queue) {
@@ -124,13 +137,13 @@ function search(bag_num) {
 			// to do: replace this linear search with a binary search
 			if (entry[0] == queue) {
 				found = true;
-                solutions = [];
-                comments = [];
+				solutions = [];
+				comments = [];
 				for (i = 0; i < entry.length; i++) {
-                    if (entry[i] == 'O') {
-                        solutions.push(data[bag_num - 1][0][i]);
-                        comments.push(data[bag_num - 1][1][i]);
-                    }
+					if (entry[i] == 'O') {
+						solutions.push(data[bag_num - 1][0][i]);
+						comments.push(data[bag_num - 1][1][i]);
+					}
 				}
 
 				solutions = unglueFumen(solutions);
@@ -138,7 +151,19 @@ function search(bag_num) {
 				if (document.getElementById('mirror').checked) solutions = mirrorFumen(solutions);
 
 				if (data[bag_num - 1][1][0] == 'comments') {
-					fumenrender(solutions, container, comments);
+					if (document.getElementById('mirror').checked) {
+						mirrored_comments = [];
+						comments.forEach((comment) => {
+							pieces = [...comment.matchAll(/[TLJSZIO]_tetramino/g)]; // yay regex
+							pieces.forEach((piece) => {
+								piece_name = piece[0];
+								mirrored = reverseMappingLetters[piece_name[0]] + '_tetramino';
+								comment = comment.replace(piece_name, mirrored);
+							});
+							mirrored_comments.push(comment);
+						});
+					}
+					fumenrender(solutions, container, mirrored_comments);
 				} else fumenrender(solutions, container);
 
 				if (solutions.length == 0) console.log('No valid solutions for this queue.');
@@ -150,17 +175,17 @@ function search(bag_num) {
 	} else if (queue.length < expected_length) {
 		found = false;
 
-        solutions_set = new Set();
-        comments_set = new Set();
+		solutions_set = new Set();
+		comments_set = new Set();
 
 		data[bag_num - 1].forEach((entry) => {
 			if (entry[0].startsWith(queue)) {
 				found = true;
 				for (i = 0; i < entry.length; i++) {
-                    if (entry[i] == 'O') {
-                        solutions_set.add(data[bag_num - 1][0][i]);
-                        comments_set.add(data[bag_num - 1][1][i]);
-                    }
+					if (entry[i] == 'O') {
+						solutions_set.add(data[bag_num - 1][0][i]);
+						comments_set.add(data[bag_num - 1][1][i]);
+					}
 				}
 			}
 		});
@@ -170,7 +195,19 @@ function search(bag_num) {
 		if (document.getElementById('mirror').checked) solutions = mirrorFumen(solutions);
 
 		if (data[bag_num - 1][1][0] == 'comments') {
-			fumenrender(solutions, container, [...comments_set]);
+			if (document.getElementById('mirror').checked) {
+				mirrored_comments = [];
+				comments_set.forEach((comment) => {
+					pieces = [...comment.matchAll(/[TLJSZIO]_tetramino/g)]; // yay regex
+					pieces.forEach((piece) => {
+						piece_name = piece[0];
+						mirrored = reverseMappingLetters[piece_name[0]] + '_tetramino';
+						comment = comment.replace(piece_name, mirrored);
+					});
+					mirrored_comments.push(comment);
+				});
+			}
+			fumenrender(solutions, container, mirrored_comments);
 		} else fumenrender(solutions, container);
 
 		if (solutions.length == 0) console.log('No valid solutions for this queue.');
