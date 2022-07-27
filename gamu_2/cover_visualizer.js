@@ -161,9 +161,10 @@ function search(bag_num) {
 								comment = comment.replace(piece_name, mirrored);
 							});
 							mirrored_comments.push(comment);
-						});
+                        });
+                        fumenrender(solutions, container, mirrored_comments);
 					}
-					fumenrender(solutions, container, mirrored_comments);
+					else fumenrender(solutions, container, comments);
 				} else fumenrender(solutions, container);
 
 				if (solutions.length == 0) console.log('No valid solutions for this queue.');
@@ -205,9 +206,10 @@ function search(bag_num) {
 						comment = comment.replace(piece_name, mirrored);
 					});
 					mirrored_comments.push(comment);
-				});
-			}
-			fumenrender(solutions, container, mirrored_comments);
+                });
+                fumenrender(solutions, container, mirrored_comments);
+            }
+            else fumenrender(solutions, container, Array.from(comments_set));
 		} else fumenrender(solutions, container);
 
 		if (solutions.length == 0) console.log('No valid solutions for this queue.');
