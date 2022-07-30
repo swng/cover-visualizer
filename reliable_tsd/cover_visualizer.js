@@ -17,11 +17,12 @@ files = [
 		'reliable bag 5 STSD PC path cover.csv',
         'reliable bag 5 STSD mech path a cover.csv',
         'reliable bag 5 STSD mech path b cover.csv',
-	], // bag 5
+    ], // bag 5
+    ['reliable bag 6 mech cover.csv'], // bag 6
 ];
 
 // populate dropdowns for each bag with files
-for (i = 0; i < 5; i++) {
+for (i = 0; i < 6; i++) {
 	dropdown = document.getElementById(`bag ${i + 1} files`);
 	for (filename of files[i]) {
 		dropdown.append(new Option(filename));
@@ -29,7 +30,7 @@ for (i = 0; i < 5; i++) {
 }
 
 function loadIncludedFile(bag_num) {
-	if (bag_num != 1 && bag_num != 2 && bag_num != 3 && bag_num != 4 && bag_num != 5) return;
+	if (bag_num != 1 && bag_num != 2 && bag_num != 3 && bag_num != 4 && bag_num != 5 && bag_num != 6) return;
 
 	filename = document.getElementById(`bag ${bag_num} files`).value; // .replace(/ /g, '%20') ??
 	const url = window.location.href.replace('index.html', '').replace('/reliable_tsd', '') + 'cover_csvs/' + filename;
@@ -256,8 +257,14 @@ document.getElementById('bag 5 queue').addEventListener('keyup', (event) => {
 	event.preventDefault(); // No need to `return false;`.
 });
 
+document.getElementById('bag 6 queue').addEventListener('keyup', (event) => {
+	if (event.key !== 'Enter') return; // Use `.key` instead.
+	search(6);
+	event.preventDefault(); // No need to `return false;`.
+});
 
-loadIncludedFile(1); // tends to take 1-2 seconds to load
+
+loadIncludedFile(1); loadIncludedFile(2); loadIncludedFile(6); // tends to take 1-2 seconds to load
 setTimeout(() => {
-	search(1);
+    search(1); search(6);
 }, '2000');
