@@ -1,0 +1,192 @@
+<html>
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+	<script src="../utils/jquery-csv.js"></script>
+
+	<script src="../utils/tetris-fumen.js"></script>
+	<script type="text/javascript" src="../utils/LZWEncoder.js"></script>
+	<script type="text/javascript" src="../utils/NeuQuant.js"></script>
+	<script type="text/javascript" src="../utils/GIFEncoder.js"></script>
+	<script type="text/javascript" src="../utils/b64.js"></script>
+
+    <script src="../utils/mirrorFumen.js"></script>
+	<script src="../utils/unglueFumen.js"></script>
+	<script src="../utils/fumen-render.js"></script>
+	<script defer src="./cover_visualizer.js"></script>
+	<head>
+		<title>Reliable Mechanical TSD</title>
+	</head>
+	<body>
+		<h1>Reliable Mechanical TSD</h1>
+        Reliable TSD has various paths. This page is a subset of <a href="../reliable_tsd">this page</a> detailing various paths. Here we will specifically discuss the path that leads into mechanical TSD. For a video example of this in action, <a href="https://www.youtube.com/watch?v=1p5kBiYpvh8">see here</a>.
+        <br>
+        <br>
+        Reliable Mechanical TSD is a continuation path from Reliable TSD opener that leads to Mechanical TSD. It was discovered by Reminder and formalized by swng.
+	</body>
+	<br />
+	<br />
+
+    <input type="checkbox" id="mirror" name="mirror" value = false />
+	<label for="mirror"> Mirror</label>
+
+    <br>
+    <br>
+    Bag 1 resembles a TKI shape. Mainly built with early LJ bags. L before S and either J or I before Z. Some spins allow some unintuitive placements for <a href="https://t1.daumcdn.net/cfile/tistory/99B843375CF9EB3117">I after J</a> or <a href="https://t1.daumcdn.net/cfile/tistory/99162F505CF9ECB013">J after IZO</a> (see KR wiki gifs). 54.44% cover or 64.44% including the mirror.
+    <br>
+    <br>
+
+	<label for="bag 1 files">Load bag 1 setup:</label>
+	<select id="bag 1 files" name="bag 1 files"></select>
+	<button type="button" onclick="loadIncludedFile(1)">Load</button>
+
+	<div id="setup 1 preview"></div>
+	<br />
+	See which queues apply to which setups.
+	<br />
+	<br />
+
+	Queue:
+	<input type="text" id="bag 1 queue" />
+	<br />
+	<br />
+	<div id="container 1"></div>
+    <br />
+
+    Bag 2 uses O and S to setup the TSD and a box with LZJI on the side. ~85% coverage.
+    <br>
+    Some tips for building a box out of LZJI:
+    <br>
+    The box consists of a 3x4 LZJ, either vertical or horizontal, and either a vertical I on the left/right or horizontal I on the top/bottom.
+    <br>
+    For Z between L and J (LZJ or JZL), <a href="https://harddrop.com/fumen/?v115@RgilwhFeglAtg0whFeBtg0whFeAth0whRpHeRpDeh0?AtwhA8CeR4g0BtwhB8AeR4A8g0AtglwhB8BeB8ilwhJeAgH?">you can build a vertical box</a>.
+    <br>
+    For Z after L and J (LJZ or JLZ), with very early or late I, you can set up a <a href="https://harddrop.com/fumen/?v115@zgRpHeRpFehlA8CeR4g0BeglB8AeR4A8i0glB8BeB8?zhJe89mvhAkif">horizontal box and do a Z spin</a>. Note that J can be spun in after L also. Note again that I needs to come early to be placed at the bottom or late to be placed at the top. If I doesn't come late enough, there exists <a href="https://harddrop.com/fumen/?v115@ogwhIewhRpGewhRpGewhA8CeR4BthlB8AeR4A8g0Bt?glB8BeB8i0glJeAgl">this thing</a>, but it leads to a different board state and you'll have to freestyle after it.
+    <br>
+    For Z before J and L, for early I or late S, <a href="https://harddrop.com/fumen/?v115@zgRpHeRpEei0A8CeR4AeBtg0B8AeR4A8BeBtB8BeB8?zhJeaHnvhAKnf">you can do a horizontal box and 180 the L</a>.
+    <br>
+    For ZJL, with late I, you can do a vertical box and <a href="https://harddrop.com/fumen/?v115@zgRpHeRpHeA8CeR4AeAtBeB8AeR4A8BtBeB8BeB8At?Me+NnvhAetBDhilwhFeglBewhIewhIewhJeAAA">tuck the J</a>.
+    <br>
+    For ZJ and very late L, you can do <a href="https://harddrop.com/fumen/?v115@zgRpHeRpHeA8CeR4i0AeB8AeR4A8Btg0AeB8BeB8Ae?BtKepIJ">this dono</a> and place L after the TSD.
+    <br>
+    <br>
+    85% is NOT 100% so there ARE cases where you simply will not be able to build the box and TSD.
+    <br>
+    <br>
+
+
+
+    <label for="bag 2 files">Load bag 2 setup:</label>
+	<select id="bag 2 files" name="bag 2 files"></select>
+	<button type="button" onclick="loadIncludedFile(2)">Load</button>
+
+	<div id="setup 2 preview"></div>
+	<br />
+	See which queues apply to which setups.
+	<br />
+	<br />
+
+	Queue:
+	<input type="text" id="bag 2 queue" />
+	<br />
+	<br />
+	<div id="container 2"></div>
+    <br />
+
+    Bag 3, you build an STSD with SZ and an LOJ box. LOJ box can be built in 2 orientations, LJ on O or O on LJ.
+    <br>
+    Finesse tips for awkward placements:
+    <br>
+    Late Z: ccw, sd, cw.  (Mirror case will be slightly different). If you don't know this finesse, the Z may kick in unexpected ways. Be careful to not misdrop in this situation; ensure it's placed correctly before confirming the placement with harddrop.
+    <br>
+    For a queue such as TIJOZSL where you build box with O above J, but Z is before L, you insert the L with a 180.
+    <br>
+    For a queue such as TIJOSLZ where you build the box with O above J, and need to tuck the L, you may need to sd the L atop the S, 180, and wait for gravity to do the tuck.
+    <br>
+    <br>
+    <label for="bag 3 files">Load bag 3 setup:</label>
+	<select id="bag 3 files" name="bag 3 files"></select>
+	<button type="button" onclick="loadIncludedFile(3)">Load</button>
+
+	<div id="setup 3 preview"></div>
+	<br />
+	See which queues apply to which setups.
+	<br />
+	<br />
+
+	Queue:
+	<input type="text" id="bag 3 queue" />
+	<br />
+	<br />
+	<div id="container 3"></div>
+    
+    <br />
+    Bag 4, you set up for mech TSD. 2 setups are provided; setup a is preferred. Coverage is 68.69% and 50% respectively, 74.64% cumulatively.
+    <br>
+    Essentially - take the TSD, place Z atop it. L goes in the L dependency on the right and I goes in the center to establish the 3 wide gap. Then an S goes on one side and an OJ chipped tooth goes on the other side.
+    <br>
+    The piece order dependencies for this are a little complicated to describe. Z follows T. Early L has to either precede S or preceded OJ. OJ can be placed on the right with J before O if I has not been placed.
+    <br>
+    <br>
+    <label for="bag 4 files">Load bag 4 setup:</label>
+	<select id="bag 4 files" name="bag 4 files"></select>
+	<button type="button" onclick="loadIncludedFile(4)">Load</button>
+
+	<div id="setup 4 preview"></div>
+	<br />
+	See which queues apply to which setups.
+	<br />
+	<br />
+
+	Queue:
+	<input type="text" id="bag 4 queue" />
+	<br />
+	<br />
+	<div id="container 4"></div>
+    <br />
+
+    <br />
+    Bag 5: complete the SL chipped tooth and start the mech TSD pattern. Path a has 63.33% success; path b has 50% succcess. If bag 5 is successful the rest of the 20TSD is 100% guaranteed. See <a href="https://www.youtube.com/watch?v=1p5kBiYpvh8">this video</a> for a demonstration and <a href="https://tinyurl.com/reliable-mechanical-20-tsd">this fumen</a> as well.
+    <br>
+    <br>
+    <label for="bag 5 files">Load bag 5 setup:</label>
+	<select id="bag 5 files" name="bag 5 files"></select>
+	<button type="button" onclick="loadIncludedFile(5)">Load</button>
+
+	<div id="setup 5 preview"></div>
+	<br />
+	See which queues apply to which setups.
+	<br />
+	<br />
+
+	Queue:
+	<input type="text" id="bag 5 queue" />
+	<br />
+	<br />
+	<div id="container 5"></div>
+    <br />
+
+    Bag 6+ mech TSD path. Um, you follow the mech v2 pattern.
+    <br>
+    You take the TSD in the premade shape and build the float above it for the next bag.
+    <br>
+    All pieces except S can be placed in any order. Keep S in hold to place later. This pattern can be repeated each bag. It raises the 3wide well by a row each bag. The I spire rises faster than the well, so you may tuck it within the 3wide well on some bags. Again, see <a href="https://tinyurl.com/reliable-mechanical-20-tsd">this fumen</a> for more details.
+    <br>
+    <br>
+
+	<label for="bag 6 files">Load bag 6 setup:</label>
+	<select id="bag 6 files" name="bag 6 files"></select>
+	<button type="button" onclick="loadIncludedFile(6)">Load</button>
+
+	<div id="setup 6 preview"></div>
+	<br />
+	See which queues apply to which setups.
+	<br />
+	<br />
+
+	Queue:
+	<input type="text" id="bag 6 queue" />
+	<br />
+	<br />
+	<div id="container 6"></div>
+    <br />
+
+</html>
