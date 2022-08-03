@@ -162,7 +162,10 @@ document.getElementById('queue').addEventListener('keyup', (event) => {
 			}
 		});
 
-		if (!found) console.log('Unsupported queue.');
+        if (!found) {
+            console.log('Unsupported queue.');
+            fumenrender([], container);
+        }
 	} else if (queue.length < expected_length) {
 		found = false;
 
@@ -185,7 +188,10 @@ document.getElementById('queue').addEventListener('keyup', (event) => {
 
 		if (solutions.length == 0) console.log('No valid solutions for this queue.');
 
-		if (!found) console.log('Unsupported queue.');
+        if (!found) {
+            console.log('Unsupported queue.');
+            fumenrender([], container);
+        }
 	}
 
 	event.preventDefault(); // No need to `return false;`.

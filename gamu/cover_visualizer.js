@@ -172,7 +172,10 @@ function search(bag_num) {
 			}
 		});
 
-		if (!found) console.log('Unsupported queue.');
+        if (!found) {
+            console.log('Unsupported queue.');
+            fumenrender([], container);
+        }
 	} else if (queue.length < expected_length) {
 		found = false;
 
@@ -214,7 +217,10 @@ function search(bag_num) {
 
 		if (solutions.length == 0) console.log('No valid solutions for this queue.');
 
-		if (!found) console.log('Unsupported queue.');
+        if (!found) {
+            console.log('Unsupported queue.');
+            fumenrender([], container);
+        }
 	}
 }
 
