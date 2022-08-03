@@ -169,22 +169,45 @@ document.getElementById('queue').addEventListener('keyup', (event) => {
 	} else if (queue.length < expected_length) {
 		found = false;
 
-		solutions_set = new Set();
+		solutions_boolean = Array( data[bag_num - 1][0].length ).fill(false) ;
 
 		data.forEach((entry) => {
 			if (entry[0].startsWith(queue)) {
 				found = true;
 				for (i = 0; i < entry.length; i++) {
-					if (entry[i] == 'O') solutions_set.add(data[0][i]);
+					solutions_boolean[i] = true;
 				}
 			}
 		});
 
-		solutions = unglueFumen(solutions_set);
+		solutions = [];
+        comments = [];
+        for (i = 0; i < solutions_boolean.length; i++) {
+            if (solutions_boolean[i]) {
+                solutions.push(data[bag_num - 1][0][i]);
+                comments.push(data[bag_num - 1][1][i]);
+            }
+        }
+        solutions = unglueFumen(solutions);
 
         if (document.getElementById('mirror').checked) solutions = mirrorFumen(solutions);
 
-		fumenrender(solutions, container);
+		if (data[bag_num - 1][1][0] == 'comments') {
+			if (document.getElementById('mirror').checked) {
+				mirrored_comments = [];
+				comments.forEach((comment) => {
+					pieces = [...comment.matchAll(/[TLJSZIO]_tetramino/g)]; // yay regex
+					pieces.forEach((piece) => {
+						piece_name = piece[0];
+						mirrored = reverseMappingLetters[piece_name[0]] + '_tetramino';
+						comment = comment.replace(piece_name, mirrored);
+					});
+					mirrored_comments.push(comment);
+                });
+                fumenrender(solutions, container, mirrored_comments);
+            }
+            else fumenrender(solutions, container, comments);
+		} else fumenrender(solutions, container);
 
 		if (solutions.length == 0) console.log('No valid solutions for this queue.');
 

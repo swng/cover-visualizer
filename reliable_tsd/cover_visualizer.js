@@ -188,29 +188,35 @@ function search(bag_num) {
 	} else if (queue.length < expected_length) {
 		found = false;
 
-		solutions_set = new Set();
-		comments_set = new Set();
+        solutions_boolean = Array( data[bag_num - 1][0].length ).fill(false) ;
 
 		data[bag_num - 1].forEach((entry) => {
 			if (entry[0].startsWith(queue)) {
 				found = true;
 				for (i = 0; i < entry.length; i++) {
 					if (entry[i] == 'O') {
-						solutions_set.add(data[bag_num - 1][0][i]);
-						comments_set.add(data[bag_num - 1][1][i]);
+						solutions_boolean[i] = true;
 					}
 				}
 			}
 		});
 
-		solutions = unglueFumen(solutions_set);
+		solutions = [];
+        comments = [];
+        for (i = 0; i < solutions_boolean.length; i++) {
+            if (solutions_boolean[i]) {
+                solutions.push(data[bag_num - 1][0][i]);
+                comments.push(data[bag_num - 1][1][i]);
+            }
+        }
+        solutions = unglueFumen(solutions);
 
 		if (document.getElementById('mirror').checked) solutions = mirrorFumen(solutions);
 
 		if (data[bag_num - 1][1][0] == 'comments') {
 			if (document.getElementById('mirror').checked) {
 				mirrored_comments = [];
-				comments_set.forEach((comment) => {
+				comments.forEach((comment) => {
 					pieces = [...comment.matchAll(/[TLJSZIO]_tetramino/g)]; // yay regex
 					pieces.forEach((piece) => {
 						piece_name = piece[0];
@@ -221,7 +227,7 @@ function search(bag_num) {
                 });
                 fumenrender(solutions, container, mirrored_comments);
             }
-            else fumenrender(solutions, container, Array.from(comments_set));
+            else fumenrender(solutions, container, comments);
 		} else fumenrender(solutions, container);
 
 		if (solutions.length == 0) console.log('No valid solutions for this queue.');
