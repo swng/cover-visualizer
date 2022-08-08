@@ -154,22 +154,29 @@ function fumenrender(fumenCodes, container, comments = undefined) {
     fumenCodes.forEach((code, index) => {
         try {
             var pages = decoder.decode(code);
+            a = document.createElement("figure");
             if (pages.length == 1) {
                 canvas = fumen_draw(pages[0], cellSize, height, transparency_fumen);
 
                 documentCanvas = document.createElement('canvas');
                 documentCanvas.style.padding = '18px';
-                if (comments != undefined) {
-                    const node = document.createTextNode(comments[index]);
-                    container.appendChild(node);
-                }
-                container.appendChild(documentCanvas);
 
                 var ctx = documentCanvas.getContext('2d');
                 documentCanvas.height = canvas.height;
                 documentCanvas.width = canvas.width;
 
                 ctx.drawImage(canvas, 0, 0);
+
+                var data_url = documentCanvas.toDataURL();
+                var img = document.createElement('img');
+                img.src = data_url;
+
+                a.appendChild(img);
+                if (comments != undefined) {
+                    caption = document.createElement("figcaption");
+                    caption.innerHTML = comments[index];
+                    a.appendChild(caption);
+                }
 
                 // documentCanvas.style.border = '5px solid #555';
             }
@@ -184,8 +191,9 @@ function fumenrender(fumenCodes, container, comments = undefined) {
 
                 // img.style.border = '5px solid #555';
 
-                container.appendChild(img);
+                a.appendChild(img);
             }
+            container.appendChild(a);
         } catch (error) { console.log(code, error); }
     });
 }
