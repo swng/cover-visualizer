@@ -8,8 +8,8 @@ files = [
 	[
 		'gamu bag 3 LO 73 set cover.csv',
 		'gamu bag 3 JO 27 set cover.csv',
-        'gamu bag 3 SOJ 30 set cover.csv',
-        'gamu bag 3 OS 15 set cover.csv'
+		'gamu bag 3 SOJ 30 set cover.csv',
+		'gamu bag 3 OS 15 set cover.csv',
 	], // bag 3
 ];
 
@@ -172,14 +172,14 @@ function search(bag_num) {
 			}
 		});
 
-        if (!found) {
-            console.log('Unsupported queue.');
-            fumenrender([], container);
-        }
+		if (!found) {
+			console.log('Unsupported queue.');
+			fumenrender([], container);
+		}
 	} else if (queue.length < expected_length) {
 		found = false;
 
-		solutions_boolean = Array( data[bag_num - 1][0].length ).fill(false) ;
+		solutions_boolean = Array(data[bag_num - 1][0].length).fill(false);
 
 		data[bag_num - 1].forEach((entry) => {
 			if (entry[0].startsWith(queue)) {
@@ -193,18 +193,18 @@ function search(bag_num) {
 		});
 
 		solutions = [];
-        comments = [];
-        for (i = 0; i < solutions_boolean.length; i++) {
-            if (solutions_boolean[i]) {
-                solutions.push(data[bag_num - 1][0][i]);
-                comments.push(data[bag_num - 1][1][i]);
-            }
-        }
-        solutions = unglueFumen(solutions);
+		comments = [];
+		for (i = 0; i < solutions_boolean.length; i++) {
+			if (solutions_boolean[i]) {
+				solutions.push(data[bag_num - 1][0][i]);
+				comments.push(data[bag_num - 1][1][i]);
+			}
+		}
+		solutions = unglueFumen(solutions);
 
 		if (document.getElementById('mirror').checked) solutions = mirrorFumen(solutions);
 
-        if (data[bag_num - 1][1][0] == 'comments') {
+		if (data[bag_num - 1][1][0] == 'comments') {
 			if (document.getElementById('mirror').checked) {
 				mirrored_comments = [];
 				comments.forEach((comment) => {
@@ -215,19 +215,20 @@ function search(bag_num) {
 						comment = comment.replace(piece_name, mirrored);
 					});
 					mirrored_comments.push(comment);
-                });
-                fumenrender(solutions, container, mirrored_comments);
-			}
-			else fumenrender(solutions, container, comments);
+				});
+				fumenrender(solutions, container, mirrored_comments);
+			} else fumenrender(solutions, container, comments);
 		} else fumenrender(solutions, container);
 
 		if (solutions.length == 0) console.log('No valid solutions for this queue.');
 
-        if (!found) {
-            console.log('Unsupported queue.');
-            fumenrender([], container);
-        }
+		if (!found) {
+			console.log('Unsupported queue.');
+			fumenrender([], container);
+		}
 	}
+
+	render_mino_font();
 }
 
 document.getElementById('bag 1 queue').addEventListener('keyup', (event) => {
@@ -252,3 +253,35 @@ loadIncludedFile(1); // tends to take 1-2 seconds to load
 setTimeout(() => {
 	search(1);
 }, '2000');
+
+function render_mino_font() {
+	document.body.innerHTML = document.body.innerHTML.replace(/L_tetramino/g, `<span class="l_mino">L</span>`);
+	document.body.innerHTML = document.body.innerHTML.replace(/J_tetramino/g, `<span class="j_mino">J</span>`);
+	document.body.innerHTML = document.body.innerHTML.replace(/S_tetramino/g, `<span class="s_mino">S</span>`);
+	document.body.innerHTML = document.body.innerHTML.replace(/Z_tetramino/g, `<span class="z_mino">Z</span>`);
+	document.body.innerHTML = document.body.innerHTML.replace(/I_tetramino/g, `<span class="i_mino">I</span>`);
+	document.body.innerHTML = document.body.innerHTML.replace(/O_tetramino/g, `<span class="o_mino">O</span>`);
+	document.body.innerHTML = document.body.innerHTML.replace(/T_tetramino/g, `<span class="t_mino">T</span>`);
+
+	// apparently this destroys all event listeners, so re declare them?
+
+	document.getElementById('bag 1 queue').addEventListener('keyup', (event) => {
+		if (event.key !== 'Enter') return; // Use `.key` instead.
+		search(1);
+		event.preventDefault(); // No need to `return false;`.
+	});
+
+	document.getElementById('bag 2 queue').addEventListener('keyup', (event) => {
+		if (event.key !== 'Enter') return; // Use `.key` instead.
+		search(2);
+		event.preventDefault(); // No need to `return false;`.
+	});
+
+	document.getElementById('bag 3 queue').addEventListener('keyup', (event) => {
+		if (event.key !== 'Enter') return; // Use `.key` instead.
+		search(3);
+		event.preventDefault(); // No need to `return false;`.
+	});
+}
+
+render_mino_font();
