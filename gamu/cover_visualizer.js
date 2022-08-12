@@ -55,6 +55,7 @@ function loadIncludedFile(bag_num) {
 }
 
 document.getElementById('mirror').addEventListener('change', (e) => {
+    mirror_mino_text();
 	if (e.target.checked) {
 		console.log('mirrored orientation');
 		for (bag_num = 1; bag_num < 4; bag_num++) {
@@ -71,7 +72,8 @@ document.getElementById('mirror').addEventListener('change', (e) => {
 });
 
 document.addEventListener('keyup', (event) => {
-	if (event.key == 'm') {
+    if (event.key == 'm') {
+        mirror_mino_text();
 		document.getElementById('mirror').checked ^= true;
 
 		if (document.getElementById('mirror').checked) {
@@ -163,8 +165,8 @@ function search(bag_num) {
 							});
 							mirrored_comments.push(comment);
 						});
-					}
-					fumenrender(solutions, container, mirrored_comments);
+						fumenrender(solutions, container, mirrored_comments);
+					} else fumenrender(solutions, container, comments);
 				} else fumenrender(solutions, container);
 
 				if (solutions.length == 0) console.log('No valid solutions for this queue.');
@@ -249,39 +251,65 @@ document.getElementById('bag 3 queue').addEventListener('keyup', (event) => {
 	event.preventDefault(); // No need to `return false;`.
 });
 
+function render_mino_font() {
+	const treeWalker = document.createTreeWalker(document.body, NodeFilter.SHOW_TEXT);
+	while (treeWalker.nextNode()) {
+		const node = treeWalker.currentNode;
+		if (node.nodeType === document.TEXT_NODE) {
+			a = node.textContent.match(/[TLJSZIO]_tetramino/g);
+			if (a != null) {
+                a.forEach((tetramino) => {
+                    index = node.textContent.search(tetramino);
+                    if (index >= 0) {
+                        let range = document.createRange();
+
+                        range.setStart(node, index);
+                        range.setEnd(node, index + 11); // "X_tetramino" always 11 characters long
+                        range.deleteContents();
+                        e = document.createElement('span');
+                        e.innerHTML = tetramino[0];
+                        if (tetramino == 'L_tetramino') e.className = 'l_mino';
+                        if (tetramino == 'J_tetramino') e.className = 'j_mino';
+                        if (tetramino == 'S_tetramino') e.className = 's_mino';
+                        if (tetramino == 'Z_tetramino') e.className = 'z_mino';
+                        if (tetramino == 'I_tetramino') e.className = 'i_mino';
+                        if (tetramino == 'O_tetramino') e.className = 'o_mino';
+                        if (tetramino == 'T_tetramino') e.className = 't_mino';
+                        range.insertNode(e);
+                    }
+				});
+			}
+		}
+	}
+}
+
+function mirror_mino_text() {
+    const l_collection = [...document.getElementsByClassName("l_mino")];
+    const j_collection = [...document.getElementsByClassName("j_mino")];
+    const s_collection = [...document.getElementsByClassName("s_mino")];
+    const z_collection = [...document.getElementsByClassName("z_mino")];
+    for (let i = 0; i < l_collection.length; i++) {
+        l_collection[i].innerHTML = 'J';
+        l_collection[i].className = "j_mino";
+    }
+    for (let i = 0; i < j_collection.length; i++) {
+        j_collection[i].innerHTML = 'L';
+        j_collection[i].className = "l_mino";
+    }
+    for (let i = 0; i < s_collection.length; i++) {
+        s_collection[i].innerHTML = 'Z';
+        s_collection[i].className = "z_mino";
+    }
+    for (let i = 0; i < z_collection.length; i++) {
+        z_collection[i].innerHTML = 'S';
+        z_collection[i].className = "S_mino";
+    }
+}
+
+
 loadIncludedFile(1); // tends to take 1-2 seconds to load
 setTimeout(() => {
 	search(1);
 }, '2000');
-
-function render_mino_font() {
-	document.body.innerHTML = document.body.innerHTML.replace(/L_tetramino/g, `<span class="l_mino">L</span>`);
-	document.body.innerHTML = document.body.innerHTML.replace(/J_tetramino/g, `<span class="j_mino">J</span>`);
-	document.body.innerHTML = document.body.innerHTML.replace(/S_tetramino/g, `<span class="s_mino">S</span>`);
-	document.body.innerHTML = document.body.innerHTML.replace(/Z_tetramino/g, `<span class="z_mino">Z</span>`);
-	document.body.innerHTML = document.body.innerHTML.replace(/I_tetramino/g, `<span class="i_mino">I</span>`);
-	document.body.innerHTML = document.body.innerHTML.replace(/O_tetramino/g, `<span class="o_mino">O</span>`);
-	document.body.innerHTML = document.body.innerHTML.replace(/T_tetramino/g, `<span class="t_mino">T</span>`);
-
-	// apparently this destroys all event listeners, so re declare them?
-
-	document.getElementById('bag 1 queue').addEventListener('keyup', (event) => {
-		if (event.key !== 'Enter') return; // Use `.key` instead.
-		search(1);
-		event.preventDefault(); // No need to `return false;`.
-	});
-
-	document.getElementById('bag 2 queue').addEventListener('keyup', (event) => {
-		if (event.key !== 'Enter') return; // Use `.key` instead.
-		search(2);
-		event.preventDefault(); // No need to `return false;`.
-	});
-
-	document.getElementById('bag 3 queue').addEventListener('keyup', (event) => {
-		if (event.key !== 'Enter') return; // Use `.key` instead.
-		search(3);
-		event.preventDefault(); // No need to `return false;`.
-	});
-}
 
 render_mino_font();
