@@ -13,3 +13,32 @@
 figure {
     display: inline-block;
 }
+
+.l_mino {
+    font-family: MinoFont;
+    color: #f99e4c
+}
+.j_mino {
+    font-family: MinoFont;
+    color: #2c84da
+}
+.s_mino {
+    font-family: MinoFont;
+    color: #70d36d
+}
+.z_mino {
+    font-family: MinoFont;
+    color: #f96c67
+}
+.t_mino {
+    font-family: MinoFont;
+    color: #b94bc6
+}
+.i_mino {
+    font-family: MinoFont;
+    color: #5cc7f9
+}
+.o_mino {
+    font-family: MinoFont;
+    color: #f9df6c
+}
