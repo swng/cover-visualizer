@@ -169,13 +169,13 @@ document.getElementById('queue').addEventListener('keyup', (event) => {
 	} else if (queue.length < expected_length) {
 		found = false;
 
-		solutions_boolean = Array( data[bag_num - 1][0].length ).fill(false) ;
+		solutions_boolean = Array( data[0].length ).fill(false) ;
 
 		data.forEach((entry) => {
 			if (entry[0].startsWith(queue)) {
 				found = true;
 				for (i = 0; i < entry.length; i++) {
-					solutions_boolean[i] = true;
+					if (entry[i] == 'O') solutions_boolean[i] = true;
 				}
 			}
 		});
@@ -184,15 +184,15 @@ document.getElementById('queue').addEventListener('keyup', (event) => {
         comments = [];
         for (i = 0; i < solutions_boolean.length; i++) {
             if (solutions_boolean[i]) {
-                solutions.push(data[bag_num - 1][0][i]);
-                comments.push(data[bag_num - 1][1][i]);
+                solutions.push(data[0][i]);
+                comments.push(data[1][i]);
             }
         }
         solutions = unglueFumen(solutions);
 
         if (document.getElementById('mirror').checked) solutions = mirrorFumen(solutions);
 
-		if (data[bag_num - 1][1][0] == 'comments') {
+		if (data[1][0] == 'comments') {
 			if (document.getElementById('mirror').checked) {
 				mirrored_comments = [];
 				comments.forEach((comment) => {
