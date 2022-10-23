@@ -1,0 +1,109 @@
+<html>
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+	<script src="../utils/jquery-csv.js"></script>
+
+	<script src="../utils/tetris-fumen.js"></script>
+	<script type="text/javascript" src="../utils/LZWEncoder.js"></script>
+	<script type="text/javascript" src="../utils/NeuQuant.js"></script>
+	<script type="text/javascript" src="../utils/GIFEncoder.js"></script>
+	<script type="text/javascript" src="../utils/b64.js"></script>
+
+    <script src="../utils/mirrorFumen.js"></script>
+	<script src="../utils/unglueFumen.js"></script>
+	<script src="../utils/fumen-render.js"></script>
+	<script defer src="./cover_visualizer.js"></script>
+
+    <link rel="stylesheet" type="text/css" href="../cover_visualizer.css" />
+	<head>
+		<title>SDPC</title>
+	</head>
+	<body>
+		<h1>SDPC</h1>
+		This is a setup that exists. Some other resources: <a href="https://docs.google.com/spreadsheets/d/1m3UuLBypp2bj4F4KBfm6UmBnfR9SwFqq5FlRnpe0e4A/">this sheet</a>; the <a href="https://tetrisopener.wicurio.com/index.php?SD%E3%83%91%E3%83%95%E3%82%A7">four.lol page</a>; the <a href="https://tetrisopener.wicurio.com/index.php?SD%E3%83%91%E3%83%95%E3%82%A7">JP Wiki page</a>.
+        <br>
+        <br>
+        SDPC is TSS - TSD - 8L PC opener. It has various alt paths such as SDPCspin, extended SDPC, mechTSD.
+	</body>
+	<br />
+	<br />
+
+    <input type="checkbox" id="mirror" name="mirror" value = false />
+	<label for="mirror"> Mirror</label>
+
+    <br>
+    <br>
+    Bag 1 TSS is buildable if O_tetramino precedes Z_tetramino. This single dependency gives it 66.67% coverage or 75% coverage inc. mirror. The orientation with TSS on left <a href="https://docs.google.com/document/d/1wHlHdkfoREtCUpbvPI19ieIigYq38jh3ITZx0-B09yo/edit">has slightly better kpp</a>.
+    <br>
+    <br>
+
+	<label for="bag 1 files">Load bag 1 setup:</label>
+	<select id="bag 1 files" name="bag 1 files"></select>
+	<button type="button" onclick="loadIncludedFile(1)">Load</button>
+
+	<div id="setup 1 preview"></div>
+	<br />
+	See which queues apply to which setups.
+	<br />
+	<br />
+
+	Queue:
+	<input type="text" id="bag 1 queue" />
+	<br />
+	<br />
+	<div id="container 1"></div>
+    <br />
+
+    The 2nd bag can always be stacked the as per the main path, though a unique L_tetramino spin is required for some bags.
+    <br>
+    There are also some alt paths for bag 2:
+    <br>
+    An alt O_tetramino placement (if bag allows 66.67% of the time) gives a better PC field.
+    <br>
+    Alt L_tetraminoJ_tetramino placements build SDPCspin.
+    <br>
+    Swapping O_tetramino and L_tetramino placements builds extended SDPC.
+    <br>
+    <br>
+
+    <label for="bag 2 files">Load bag 2 setup:</label>
+	<select id="bag 2 files" name="bag 2 files"></select>
+	<button type="button" onclick="loadIncludedFile(2)">Load</button>
+
+	<div id="setup 2 preview"></div>
+	<br />
+	See which queues apply to which setups.
+	<br />
+	<br />
+
+	Queue:
+	<input type="text" id="bag 2 queue" />
+	<br />
+	<br />
+	<div id="container 2"></div>
+    <br />
+
+    <!--sdpcspin path to be continued blah blah research java -jar "sfinder-teto-180.jar" cover -d 180 -p *p7 -t v115@zgA8IeC8EeA8AeD8DeA8AeD8BeA8AeH8AeC8Jep+Iv?hEPZBumBamBzWB0VB v115@zgA8IeC8EeA8AeD8DeA8AeD8BeA8AeH8AeC8Jep+Iv?hEPZBumBamBzVBMQB -->
+    If going for PC path, complete an 8L PC on bag 3. Note that coverage on this page is computed assuming tetrio 180 kicks.
+    <br>
+    If doing SDPCspin, build a c spin. There are two builds, depending on Z_tetraminoJ_tetraminoL_tetramino order.
+    <br>
+    If building extended SDPC, insert commentary.
+    <br>
+    <br>
+    <label for="bag 3 files">Load bag 3 setup:</label>
+	<select id="bag 3 files" name="bag 3 files"></select>
+	<button type="button" onclick="loadIncludedFile(3)">Load</button>
+
+	<div id="setup 3 preview"></div>
+	<br />
+	See which queues apply to which setups.
+	<br />
+	<br />
+
+	Queue:
+	<input type="text" id="bag 3 queue" />
+	<br />
+	<br />
+	<div id="container 3"></div>
+    <br />
+</html>
