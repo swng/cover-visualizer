@@ -165,7 +165,7 @@ function search(bag_num) {
 					if (document.getElementById('mirror').checked) {
 						mirrored_comments = [];
 						comments.forEach((comment) => {
-							pieces = [...comment.matchAll(/[TLJSZIO]_tetramino/g)]; // yay regex
+							let pieces = [...comment.matchAll(/[TLJSZIO]_tetramino/g)]; // yay regex
 							pieces.forEach((piece) => {
 								piece_name = piece[0];
 								mirrored = reverseMappingLetters[piece_name[0]] + '_tetramino';
@@ -219,7 +219,7 @@ function search(bag_num) {
 			if (document.getElementById('mirror').checked) {
 				mirrored_comments = [];
 				comments.forEach((comment) => {
-					pieces = [...comment.matchAll(/[TLJSZIO]_tetramino/g)]; // yay regex
+					let pieces = [...comment.matchAll(/[TLJSZIO]_tetramino/g)]; // yay regex
 					pieces.forEach((piece) => {
 						piece_name = piece[0];
 						mirrored = reverseMappingLetters[piece_name[0]] + '_tetramino';

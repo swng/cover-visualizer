@@ -116,12 +116,6 @@ function search(bag_num) {
 	console.log(`Searching with queue '${queue}'`);
 	document.getElementById(`bag ${bag_num} queue`).value = queue;
 
-	if (bag_num == 2) {
-		// allowing user to input just bag 2 without the saved L/J in hold from bag 1
-		if (queue[0] != 'L' && !document.getElementById('mirror').checked) queue = 'L' + queue;
-		if (queue[0] != 'J' && document.getElementById('mirror').checked) queue = 'J' + queue;
-	}
-
 	if (document.getElementById('mirror').checked) {
 		mirrored_queue = '';
 		for (char of queue) {
@@ -158,7 +152,7 @@ function search(bag_num) {
 					if (document.getElementById('mirror').checked) {
 						mirrored_comments = [];
 						comments.forEach((comment) => {
-							pieces = [...comment.matchAll(/[TLJSZIO]_tetramino/g)]; // yay regex
+							let pieces = [...comment.matchAll(/[TLJSZIO]_tetramino/g)]; // yay regex
 							pieces.forEach((piece) => {
 								piece_name = piece[0];
 								mirrored = reverseMappingLetters[piece_name[0]] + '_tetramino';
@@ -204,6 +198,7 @@ function search(bag_num) {
                 comments.push(data[bag_num - 1][1][i]);
             }
         }
+        console.log(solutions);
         solutions = unglueFumen(solutions);
 
 		if (document.getElementById('mirror').checked) solutions = mirrorFumen(solutions);
@@ -212,7 +207,7 @@ function search(bag_num) {
 			if (document.getElementById('mirror').checked) {
 				mirrored_comments = [];
 				comments.forEach((comment) => {
-					pieces = [...comment.matchAll(/[TLJSZIO]_tetramino/g)]; // yay regex
+					let pieces = [...comment.matchAll(/[TLJSZIO]_tetramino/g)]; // yay regex
 					pieces.forEach((piece) => {
 						piece_name = piece[0];
 						mirrored = reverseMappingLetters[piece_name[0]] + '_tetramino';
