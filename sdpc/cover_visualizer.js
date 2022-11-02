@@ -11,11 +11,21 @@ files = [
         'alt sdpc bag 3 26 set cover.csv',
         'sdpcspin bag 3 cover.csv',
         'extended sdpc bag 3 cover.csv'
-	], // bag 3
+    ], // bag 3
+    [
+        'stickmancomic hamburger bag 4 cover.csv',
+        'sdpcspin main path bag 4 cover.csv', // not 100%
+        'sdpcspin alt path bag 4 cover.csv' // not 100%
+    ], // bag 4
+    [
+        'stickmancomic hamburger bag 5 cover.csv', // just freestyle upstack after this
+        'sdpcspin main path bag 5 cover.csv',
+        'sdpcspin alt path bag 5 cover.csv'
+    ] // bag 5
 ];
 
 // populate dropdowns for each bag with files
-for (i = 0; i < 3; i++) {
+for (i = 0; i < files.length; i++) {
 	dropdown = document.getElementById(`bag ${i + 1} files`);
 	for (filename of files[i]) {
 		dropdown.append(new Option(filename));
@@ -23,7 +33,7 @@ for (i = 0; i < 3; i++) {
 }
 
 function loadIncludedFile(bag_num) {
-	if (bag_num != 1 && bag_num != 2 && bag_num != 3) return;
+	if (bag_num != 1 && bag_num != 2 && bag_num != 3 && bag_num != 4 && bag_num != 5) return;
 
 	filename = document.getElementById(`bag ${bag_num} files`).value; // .replace(/ /g, '%20') ??
 	const url = window.location.href.replace('index.html', '').replace('/sdpc', '') + 'cover_csvs/' + filename;
@@ -59,13 +69,13 @@ document.getElementById('mirror').addEventListener('change', (e) => {
     mirror_mino_text();
 	if (e.target.checked) {
 		console.log('mirrored orientation');
-		for (bag_num = 1; bag_num < 4; bag_num++) {
+		for (bag_num = 1; bag_num < files.length; bag_num++) {
 			container = document.getElementById(`setup ${bag_num} preview`);
 			fumenrender(mirrorFumen([setup[bag_num - 1]]), container);
 		}
 	} else {
 		console.log('standard orientation');
-		for (bag_num = 1; bag_num < 4; bag_num++) {
+		for (bag_num = 1; bag_num < files.length; bag_num++) {
 			container = document.getElementById(`setup ${bag_num} preview`);
 			fumenrender([setup[bag_num - 1]], container);
 		}
@@ -79,13 +89,13 @@ document.addEventListener('keyup', (event) => {
 
 		if (document.getElementById('mirror').checked) {
 			console.log('mirrored orientation');
-			for (bag_num = 1; bag_num < 4; bag_num++) {
+			for (bag_num = 1; bag_num < files.length; bag_num++) {
 				container = document.getElementById(`setup ${bag_num} preview`);
 				fumenrender(mirrorFumen([setup[bag_num - 1]]), container);
 			}
 		} else {
 			console.log('standard orientation');
-			for (bag_num = 1; bag_num < 4; bag_num++) {
+			for (bag_num = 1; bag_num < files.length; bag_num++) {
 				container = document.getElementById(`setup ${bag_num} preview`);
 				fumenrender([setup[bag_num - 1]], container);
 			}
@@ -245,6 +255,18 @@ document.getElementById('bag 2 queue').addEventListener('keyup', (event) => {
 document.getElementById('bag 3 queue').addEventListener('keyup', (event) => {
 	if (event.key !== 'Enter') return; // Use `.key` instead.
 	search(3);
+	event.preventDefault(); // No need to `return false;`.
+});
+
+document.getElementById('bag 4 queue').addEventListener('keyup', (event) => {
+	if (event.key !== 'Enter') return; // Use `.key` instead.
+	search(4);
+	event.preventDefault(); // No need to `return false;`.
+});
+
+document.getElementById('bag 5 queue').addEventListener('keyup', (event) => {
+	if (event.key !== 'Enter') return; // Use `.key` instead.
+	search(5);
 	event.preventDefault(); // No need to `return false;`.
 });
 
