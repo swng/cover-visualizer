@@ -9,6 +9,7 @@ files = [
 		'sdpc bag 3 cover.csv',
         'alt sdpc bag 3 19 set cover.csv',
         'alt sdpc bag 3 26 set cover.csv',
+        'alt sdpc 64 cover.csv',
         'sdpcspin bag 3 cover.csv',
         'extended sdpc bag 3 cover.csv'
     ], // bag 3
