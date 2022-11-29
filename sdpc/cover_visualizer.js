@@ -1,6 +1,7 @@
 const { decoder, encoder } = require('tetris-fumen');
 
 data = [[], [], []];
+data_nohold = [undefined, undefined, undefined];
 setup = ['v115@vhAAgH', 'v115@vhAAgH', 'v115@vhAAgH'];
 files = [
 	['sdpc bag 1 cover.csv'], // bag 1
@@ -63,7 +64,26 @@ function loadIncludedFile(bag_num) {
 			if (document.getElementById('mirror').checked) {
 				fumenrender(mirrorFumen([setup[bag_num - 1]]), container);
 			} else fumenrender([setup[bag_num - 1]], container);
-		});
+        });
+    
+    if (bag_num == 3) {
+            console.log(url.slice(0, -4) + " nohold.csv")
+            fetch(url.slice(0, -4) + " nohold.csv") // may throw error if nohold cover data doesn't exist
+                .then((r) => {
+                    if (!r.ok) throw Error("nohold data doesn't exist for this setup");
+                    else return r.text();
+                })
+                .then((t) => {
+                    data_nohold[bag_num - 1] = {};
+                    let temp = $.csv.toArrays(t); // convert array to dictionary for faster access
+                    for (let line of temp) {
+                        data_nohold[bag_num - 1][line[0]] = line;
+                    }
+                })
+                .catch((e) => {
+                    data_nohold[bag_num - 1] = undefined;
+                })
+            }
 }
 
 document.getElementById('mirror').addEventListener('change', (e) => {
@@ -135,7 +155,7 @@ function search(bag_num) {
 		queue = mirrored_queue;
 	}
 
-	expected_length = data[bag_num - 1][1][0].length;
+	expected_length = data[bag_num - 1][2][0].length;
 
 	if (queue.length > expected_length) queue = queue.substring(0, expected_length);
 
@@ -150,8 +170,32 @@ function search(bag_num) {
 				comments = [];
 				for (i = 0; i < entry.length; i++) {
 					if (entry[i] == 'O') {
-						solutions.push(data[bag_num - 1][0][i]);
-						comments.push(data[bag_num - 1][1][i]);
+                        solutions.push(data[bag_num - 1][0][i]);
+                        if (data_nohold[bag_num - 1] != undefined) { // find max scores
+                            let pages = decoder.decode(data[bag_num - 1][0][i]);
+                            let max_score = -3000;
+                            let hold_reorderings = hold_reorders(queue);
+                            for (queue_2 of hold_reorderings) {
+                                if (!(queue_2 in data_nohold[bag_num - 1])) throw queue_2 + " not in nohold cover data"; // nohold cover data not fully generated?
+                                valid = (queue_2 in data_nohold[bag_num - 1]) && data_nohold[bag_num - 1][queue_2][i] == 'O';
+                                if (valid) {
+                                    let temp = get_score(queue_2, pages, true, 1, 600);
+                                    if (temp > max_score) {
+                                        max_score = temp;
+                                    }
+                                }
+        
+                                
+                            }
+                            let insert_index = 0;
+                            for (j = 0; j < comments.length; j++) {
+                                if (max_score < comments[j]) insert_index = j+1;
+                            }
+                            comments.splice(insert_index, 0, max_score);
+                            solutions.splice(insert_index, 0, solutions.pop());
+
+                        }
+						else comments.push(data[bag_num - 1][1][i]);
 					}
 				}
 
@@ -174,7 +218,8 @@ function search(bag_num) {
                         fumenrender(solutions, container, mirrored_comments);
 					}
 					else fumenrender(solutions, container, comments);
-				} else fumenrender(solutions, container);
+                } else if (data_nohold[bag_num - 1] != undefined) fumenrender(solutions, container, comments);
+                else fumenrender(solutions, container);
 
 				if (solutions.length == 0) console.log('No valid solutions for this queue.');
 				return;

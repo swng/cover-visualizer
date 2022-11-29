@@ -132,7 +132,7 @@ function search(bag_num) {
 		queue = mirrored_queue;
 	}
 
-	expected_length = data[bag_num - 1][1][0].length;
+	expected_length = data[bag_num - 1][2][0].length;
 
 	if (queue.length > expected_length) queue = queue.substring(0, expected_length);
 

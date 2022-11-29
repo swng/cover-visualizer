@@ -137,7 +137,7 @@ document.getElementById('queue').addEventListener('keyup', (event) => {
 		queue = mirrored_queue;
 	}
 
-	expected_length = data[1][0].length;
+	expected_length = data[2][0].length;
 
 	if (queue.length > expected_length) queue = queue.substring(0, expected_length);
 
