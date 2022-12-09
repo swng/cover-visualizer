@@ -173,15 +173,17 @@ function search(bag_num) {
                         solutions.push(data[bag_num - 1][0][i]);
                         if (data_nohold[bag_num - 1] != undefined) { // find max scores
                             let pages = decoder.decode(data[bag_num - 1][0][i]);
-                            let max_score = -3000;
+                            let max_score_obj;
                             let hold_reorderings = hold_reorders(queue);
                             for (queue_2 of hold_reorderings) {
                                 if (!(queue_2 in data_nohold[bag_num - 1])) throw queue_2 + " not in nohold cover data"; // nohold cover data not fully generated?
                                 valid = (queue_2 in data_nohold[bag_num - 1]) && data_nohold[bag_num - 1][queue_2][i] == 'O';
                                 if (valid) {
-                                    let temp = get_score(queue_2, pages, true, 1, 600);
-                                    if (temp > max_score) {
-                                        max_score = temp;
+                                    let score_obj = get_score(queue_2, pages, true, 1, 600);
+                                    if (max_score_obj !== pick_better_score(score_obj, max_score_obj)) {
+                                        max_score_obj = score_obj;
+                                        max_queue = queue;
+                                        max_sol_index = j;
                                     }
                                 }
         
@@ -189,9 +191,9 @@ function search(bag_num) {
                             }
                             let insert_index = 0;
                             for (j = 0; j < comments.length; j++) {
-                                if (max_score < comments[j]) insert_index = j+1;
+                                if (max_score_obj !== pick_better_score(max_score_obj, comments[j])) insert_index = j+1;
                             }
-                            comments.splice(insert_index, 0, max_score);
+                            comments.splice(insert_index, 0, max_score_obj);
                             solutions.splice(insert_index, 0, solutions.pop());
 
                         }

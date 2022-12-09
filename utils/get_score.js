@@ -1,23 +1,52 @@
-// v1.6
+// v1.9
 
-function toPage(in_field, i) {
-	// for debugging purposes
-	let field = in_field.copy();
-	flags = {
-		rise: false,
-		mirror: false,
-		colorize: true,
-		comment: '',
-		lock: true,
-		piece: undefined,
-	};
-	page = {
-		comment: '',
-		field,
-		flags: flags,
-		index: i,
-	};
-	return page;
+const GAMES = { JSTRIS: {}, TETRIO: {}, GUIDELINE: {} };
+const GAME = GAMES.JSTRIS;
+
+let score_table_normal    = [   0,  100,  300,  500,  800];
+let score_table_spin      = [ 400,  800, 1200, 1600];
+let score_table_spin_mini = [ 100,  200,  400];
+let score_table_pc        = [ NaN,  800, 1200, 1800,  NaN]; // only used for guideline
+
+// function toPage(in_field, i) {
+// 	// for debugging purposes
+// 	let field = in_field.copy();
+// 	let flags = {
+// 		rise: false,
+// 		mirror: false,
+// 		colorize: true,
+// 		comment: '',
+// 		lock: true,
+// 		piece: undefined,
+// 	};
+// 	let page = {
+// 		comment: '',
+// 		field,
+// 		flags: flags,
+// 		index: i,
+// 	};
+// 	return page;
+// }
+
+function score_object_string(score_object) {
+    let result = score_object.score;
+    for (extra of [...score_object.extra].reverse()) {
+        // {"lines_cleared":2,"tspin":true,"mini":false,"b2b":true}
+        // result += JSON.stringify(extra);
+        let temp = ": ";
+        if (extra.b2b) temp += "B2B "
+        if (extra.tspin) {
+            temp += "TS";
+            if (extra.mini) temp += "M";
+            temp += "0SDT"[extra.lines_cleared];
+        }
+        if (extra.lines_cleared == 4) temp += "quad";
+
+        result += temp;
+
+    }
+
+    return result;
 }
 
 function occupiedCorner(field, corner) {
@@ -36,7 +65,7 @@ function clearedOffset(rowsCleared, yIndex) {
 
 function inverse_clearedOffset(rowsCleared, yIndex) {
 	// given previously cleared rows and the global y index, what is the "local" y index?
-	offset = 0;
+	let offset = 0;
 	for (let row of rowsCleared) {
 		if (yIndex > row) offset++;
 	}
@@ -60,37 +89,37 @@ function hold_reorders(queue) {
 }
 
 function get_cumulative_rows_cleared(solution_pages) {
-    let rowsCleared = [];
-    let testing_field = solution_pages[0].field.copy(); // a copy of it so we don't disturb the original field
-    let cumulative_rowsCleared = [[]];
-    for (let page of solution_pages) {
-        testing_field.fill(page.operation);
-        let positions = page.operation.positions();
+	let rowsCleared = [];
+	let testing_field = solution_pages[0].field.copy(); // a copy of it so we don't disturb the original field
+	let cumulative_rowsCleared = [[]];
+	for (let page of solution_pages) {
+		testing_field.fill(page.operation);
+		let positions = page.operation.positions();
 
-        // check for line clears
-        let y_positions = new Set();
-        for (position of positions) {
-            y_positions.add(position.y);
-        }
-        let temp_rowsCleared = new Set();
-        for (let y of y_positions) {
-            let line_cleared = true;
-            for (let x = 0; x < 10; x++) {
-                if (testing_field.at(x, y) == '_') line_cleared = false;
-            }
-            if (line_cleared) temp_rowsCleared.add(clearedOffset(rowsCleared, y));
-        }
-        for (let row of temp_rowsCleared) rowsCleared.push(row);
-        testing_field.clearLine();
-        rowsCleared.sort();
-        cumulative_rowsCleared.push(rowsCleared.slice());
-    }
+		// check for line clears
+		let y_positions = new Set();
+		for (position of positions) {
+			y_positions.add(position.y);
+		}
+		let temp_rowsCleared = new Set();
+		for (let y of y_positions) {
+			let line_cleared = true;
+			for (let x = 0; x < 10; x++) {
+				if (testing_field.at(x, y) == '_') line_cleared = false;
+			}
+			if (line_cleared) temp_rowsCleared.add(clearedOffset(rowsCleared, y));
+		}
+		for (let row of temp_rowsCleared) rowsCleared.push(row);
+		testing_field.clearLine();
+		rowsCleared.sort();
+		cumulative_rowsCleared.push(rowsCleared.slice());
+	}
 
-    return cumulative_rowsCleared;
+	return cumulative_rowsCleared;
 }
 
 function spin_cw(operation) {
-	old_rotation = operation.rotation;
+	let old_rotation = operation.rotation;
 	switch (old_rotation) {
 		case 'spawn':
 			operation.rotation = 'right';
@@ -109,7 +138,7 @@ function spin_cw(operation) {
 }
 
 function spin_ccw(operation) {
-	old_rotation = operation.rotation;
+	let old_rotation = operation.rotation;
 	switch (old_rotation) {
 		case 'spawn':
 			operation.rotation = 'left';
@@ -128,9 +157,9 @@ function spin_ccw(operation) {
 }
 
 function spin_180(operation) {
-    old_rotation = operation.rotation;
-    switch (old_rotation) {
-        case 'spawn':
+	let old_rotation = operation.rotation;
+	switch (old_rotation) {
+		case 'spawn':
 			operation.rotation = 'reverse';
 			break;
 		case 'left':
@@ -142,121 +171,138 @@ function spin_180(operation) {
 		case 'right':
 			operation.rotation = 'left';
 			break;
-    }
-    return operation;
+	}
+	return operation;
 }
 
 function get_cw_kicks(operation, initial_rotation) {
-    result = [
-        operation.copy(), operation.copy(), operation.copy(), operation.copy(), operation.copy()
-    ] // incredible
-    switch (initial_rotation) {
-        case 'spawn':  // 0->R
-            result[1].x -= 1;
-            result[2].x -= 1; result[2].y += 1;
-                              result[3].y -= 2;
-            result[4].x -= 1; result[4].y -= 2;
-            break;
-        case 'right':  // R->2  
-            result[1].x += 1;
-            result[2].x += 1; result[2].y -= 1;
-                              result[3].y += 2;
-            result[4].x += 1; result[4].y += 2;
-            break;
-        case 'reverse':  // 2->L
-            result[1].x += 1;
-            result[2].x += 1; result[2].y += 1;
-                              result[3].y -= 2;
-            result[4].x += 1; result[4].y -= 2;
-            break;
-        case 'left':  // L->0
-            result[1].x -= 1;
-            result[2].x -= 1; result[2].y -= 1;
-                              result[3].y += 2;
-            result[4].x -= 1; result[4].y += 2;
-            break;
-    }
-    return result;
+	let result = Array(5).fill().map(_ => operation.copy());
+	switch (initial_rotation) {
+		case 'spawn':  // 0->R
+			result[1].x -= 1;
+			result[2].x -= 1; result[2].y += 1;
+							  result[3].y -= 2;
+			result[4].x -= 1; result[4].y -= 2;
+			break;
+		case 'right':  // R->2
+			result[1].x += 1;
+			result[2].x += 1; result[2].y -= 1;
+							  result[3].y += 2;
+			result[4].x += 1; result[4].y += 2;
+			break;
+		case 'reverse':  // 2->L
+			result[1].x += 1;
+			result[2].x += 1; result[2].y += 1;
+							  result[3].y -= 2;
+			result[4].x += 1; result[4].y -= 2;
+			break;
+		case 'left':  // L->0
+			result[1].x -= 1;
+			result[2].x -= 1; result[2].y -= 1;
+							  result[3].y += 2;
+			result[4].x -= 1; result[4].y += 2;
+			break;
+	}
+	return result;
 }
 
 function get_ccw_kicks(operation, initial_rotation) {
-    result = [
-        operation.copy(), operation.copy(), operation.copy(), operation.copy(), operation.copy()
-    ] // incredible
-    switch (initial_rotation) {
-        case 'spawn':  // 0->L
-            result[1].x += 1;
-            result[2].x += 1; result[2].y += 1;
-                              result[3].y -= 2;
-            result[4].x += 1; result[4].y -= 2;
-            break;
-        case 'left':  // L->2  
-            result[1].x -= 1;
-            result[2].x -= 1; result[2].y -= 1;
-                              result[3].y += 2;
-            result[4].x -= 1; result[4].y += 2;
-            break;
-        case 'reverse':  // 2->R
-            result[1].x -= 1;
-            result[2].x -= 1; result[2].y += 1;
-                              result[3].y -= 2;
-            result[4].x -= 1; result[4].y -= 2;
-            break;
-        case 'right':  // R->0
-            result[1].x += 1;
-            result[2].x += 1; result[2].y -= 1;
-                              result[3].y += 2;
-            result[4].x += 1; result[4].y += 2;
-            break;
-    }
-    return result;
+	let result = Array(5).fill().map(_ => operation.copy());
+	switch (initial_rotation) {
+		case 'spawn':  // 0->L
+			result[1].x += 1;
+			result[2].x += 1; result[2].y += 1;
+							  result[3].y -= 2;
+			result[4].x += 1; result[4].y -= 2;
+			break;
+		case 'left':  // L->2
+			result[1].x -= 1;
+			result[2].x -= 1; result[2].y -= 1;
+							  result[3].y += 2;
+			result[4].x -= 1; result[4].y += 2;
+			break;
+		case 'reverse':  // 2->R
+			result[1].x -= 1;
+			result[2].x -= 1; result[2].y += 1;
+							  result[3].y -= 2;
+			result[4].x -= 1; result[4].y -= 2;
+			break;
+		case 'right':  // R->0
+			result[1].x += 1;
+			result[2].x += 1; result[2].y -= 1;
+							  result[3].y += 2;
+			result[4].x += 1; result[4].y += 2;
+			break;
+	}
+	return result;
 }
 
 function get_180_kicks(operation, initial_rotation) {
-    result = [
-        operation.copy(), operation.copy(), operation.copy(), operation.copy(), operation.copy(), operation.copy()
-    ] // incredible
-    switch (initial_rotation) { // using SRS+ kickset here
-        case 'spawn':  // 0->2
-                              result[1].y += 1;
-            result[2].x += 1; result[2].y += 1;
-            result[3].x -= 1; result[3].y += 1;
-            result[4].x += 1;
-            result[5].x -= 1;
-            break;
-        case 'left':  // L->R  
-            result[1].x -= 1;
-            result[2].x -= 1; result[2].y += 2;
-            result[3].x -= 1; result[3].y += 1;
-                              result[4].y += 2;
-                              result[5].y += 1;
-            break;
-        case 'reverse':  // 2->0
-                              result[1].y -= 1;
-            result[2].x -= 1; result[2].y -= 1;
-            result[3].x += 1; result[3].y -= 1;
-            result[4].x -= 1;
-            result[5].x += 1;
-            break;
-        case 'right':  // R->L
-            result[1].x += 1;
-            result[2].x += 1; result[2].y += 2;
-            result[3].x += 1; result[3].y += 1;
-                              result[4].y += 2;
-                              result[5].y += 1;
-            break;
-    }
-    return result;
+	let result;
+	switch (GAME) {
+		case GAMES.TETRIO:
+			result = Array(6).fill().map(_ => operation.copy());
+			switch (initial_rotation) { // using SRS+ kickset here
+				case 'spawn':  // 0->2
+									  result[1].y += 1;
+					result[2].x += 1; result[2].y += 1;
+					result[3].x -= 1; result[3].y += 1;
+					result[4].x += 1;
+					result[5].x -= 1;
+					break;
+				case 'left':  // L->R
+					result[1].x -= 1;
+					result[2].x -= 1; result[2].y += 2;
+					result[3].x -= 1; result[3].y += 1;
+									  result[4].y += 2;
+									  result[5].y += 1;
+					break;
+				case 'reverse':  // 2->0
+									  result[1].y -= 1;
+					result[2].x -= 1; result[2].y -= 1;
+					result[3].x += 1; result[3].y -= 1;
+					result[4].x -= 1;
+					result[5].x += 1;
+					break;
+				case 'right':  // R->L
+					result[1].x += 1;
+					result[2].x += 1; result[2].y += 2;
+					result[3].x += 1; result[3].y += 1;
+									  result[4].y += 2;
+									  result[5].y += 1;
+					break;
+			}
+			return result;
+		case GAMES.JSTRIS:
+			result = Array(2).fill().map(_ => operation.copy());
+			switch (initial_rotation) { // using SRS+ kickset here
+				case 'spawn':  // 0->2
+					result[1].y += 1;
+					break;
+				case 'left':  // L->R
+					result[1].x -= 1;
+					break;
+				case 'reverse':  // 2->0
+					result[1].y -= 1;
+					break;
+				case 'right':  // R->L
+					result[1].x += 1;
+					break;
+			}
+			return result;
+		case GAMES.GUIDELINE: // guideline has no 180; this should not be reachable
+			throw 'guideline has no 180';
+	}
 }
 
-function unobstructed(field, rotation) {
-    positions = rotation.positions();
-    for (position of positions) {
-        if (position.y < 0 || position.x < 0 || position.x > 9) return false;
-        if (field.at(position.x, position.y) != "_") return false;
-    }
-    return true;
-}
+// function unobstructed(field, rotation) {
+// 	let positions = rotation.positions();
+// 	for (let position of positions) {
+// 		if (position.y < 0 || position.x < 0 || position.x > 9) return false;
+// 		if (field.at(position.x, position.y) != "_") return false;
+// 	}
+// 	return true;
+// }
 
 function t_spin_checker(op, field) { // returns -1 if not t spin; otherwise, returns the kick index (0-4) of the last spin used
 	// console.log(page.field.str());
@@ -265,67 +311,74 @@ function t_spin_checker(op, field) { // returns -1 if not t spin; otherwise, ret
 
 	if (op.type != 'T') return -1;
 
-    cw = spin_cw(op.copy());
-    ccw = spin_ccw(op.copy());
-    r180 = spin_180(op.copy());
+	let cw = spin_cw(op.copy());
+	let ccw = spin_ccw(op.copy());
 
-    if (unobstructed(field, cw)) return 0;
-    if (unobstructed(field, ccw)) return 0;
-    if (unobstructed(field, r180)) return 0;
+	if (field.canFill(cw)) return 0;
+	//if (field.canFill(ccw)) return 0;
+	//if (field.canFill(r180)) return 0;
+	// if any kickless rotation is unobstructed, the other two will also be
 
-    cw_kicks = get_cw_kicks(cw, op.rotation);
-    ccw_kicks = get_ccw_kicks(ccw, op.rotation);
-    r180_kicks = get_180_kicks(r180, op.rotation);
+	let cw_kicks = get_cw_kicks(cw, op.rotation);
+	let ccw_kicks = get_ccw_kicks(ccw, op.rotation);
 
-    for (kick of cw_kicks) {
-        if (unobstructed(field, kick)) { // try and reverse it
-            let temp = spin_ccw(kick.copy());
-            let temp_kicks = get_ccw_kicks(temp, kick.rotation);
-            for (i = 1; i < 5; i++) {
-                temp_kick = temp_kicks[i];
-                if (unobstructed(field, temp_kick)) {
-                    // console.log(i, kick, temp_kick);
-                    if (temp_kick.x == op.x && temp_kick.y == op.y) return i;
-                    return -1; // only first working kick
-                    
-                }
-            }
-            return -1; // only first working kick
-        }
-    }
-    for (kick of ccw_kicks) {
-        if (unobstructed(field, kick)) { // try and reverse it
-            let temp = spin_cw(kick.copy());
-            let temp_kicks = get_cw_kicks(temp, kick.rotation);
-            for (i = 1; i < 5; i++) {
-                temp_kick = temp_kicks[i];
-                if (unobstructed(field, temp_kick)) {
-                    // console.log(i, kick, temp_kick);
-                    if (temp_kick.x == op.x && temp_kick.y == op.y) return i;
-                    return -1; // only first working kick
-                }
-            }
-            return -1; // only first working kick
-        }
-    }
+	for (let kick of cw_kicks) {
+		if (field.canFill(kick)) { // try and reverse it
+			let temp = spin_ccw(kick.copy());
+			let temp_kicks = get_ccw_kicks(temp, kick.rotation);
+			for (let i = 1; i < 5; i++) {
+				temp_kick = temp_kicks[i];
+				if (field.canFill(temp_kick)) {
+					// console.log(i, kick, temp_kick);
+					if (temp_kick.x == op.x && temp_kick.y == op.y) return i;
+					return -1; // only first working kick
 
-    for (kick of r180_kicks) {
-        if (unobstructed(field, kick)) { // try and reverse it
-            let temp = spin_180(kick.copy());
-            let temp_kicks = get_180_kicks(temp, kick.rotation);
-            for (i = 1; i < 6; i++) {
-                temp_kick = temp_kicks[i];
-                if (unobstructed(field, temp_kick)) {
-                    // console.log(i, kick, temp_kick);
-                    if (temp_kick.x == op.x && temp_kick.y == op.y) return i;
-                    return -1; // only first working kick
-                }
-            }
-            return -1; // only first working kick
-        }
-    }
+				}
+			}
+			return -1; // only first working kick
+		}
+	}
+	for (let kick of ccw_kicks) {
+		if (field.canFill(kick)) { // try and reverse it
+			let temp = spin_cw(kick.copy());
+			let temp_kicks = get_cw_kicks(temp, kick.rotation);
+			for (let i = 1; i < 5; i++) {
+				temp_kick = temp_kicks[i];
+				if (field.canFill(temp_kick)) {
+					// console.log(i, kick, temp_kick);
+					if (temp_kick.x == op.x && temp_kick.y == op.y) return i;
+					return -1; // only first working kick
+				}
+			}
+			return -1; // only first working kick
+		}
+	}
 
-    return -1;
+	// XXX probably wrong on e.g. v115@zgB8HeA8IeA8AeI8BeH8CeF8JetJJ and the mirror
+
+	if (GAME === GAME.TETRIO) {
+		// not possible to get 180 t-spins on Jstris or guideline
+		let r180 = spin_180(op.copy());
+		let r180_kicks = get_180_kicks(r180, op.rotation);
+
+		for (let kick of r180_kicks) {
+			if (field.canFill(kick)) { // try and reverse it
+				let temp = spin_180(kick.copy());
+				let temp_kicks = get_180_kicks(temp, kick.rotation);
+				for (let i = 1; i < temp_kicks.length; i++) {
+					temp_kick = temp_kicks[i];
+					if (field.canFill(temp_kick)) {
+						// console.log(i, kick, temp_kick);
+						if (temp_kick.x == op.x && temp_kick.y == op.y) return i;
+						return -1; // only first working kick
+					}
+				}
+				return -1; // only first working kick
+			}
+		}
+	}
+
+	return -1;
 }
 
 function get_score(
@@ -333,23 +386,23 @@ function get_score(
 	solution_pages,
 	base_b2b = true,
 	base_combo = 1,
-    b2b_end_bonus = 0,
-    cumulative_rowsCleared = undefined,
+	b2b_end_bonus = 0,
+	cumulative_rowsCleared = undefined,
 	base_field = undefined,
 	base_viz = undefined,
-	base_rowsCleared = undefined
+	base_rowsCleared = undefined,
 ) {
 	// compute line clear orders in the source solution pages
-    if (cumulative_rowsCleared == undefined) cumulative_rowsCleared = get_cumulative_rows_cleared(solution_pages);
+	if (cumulative_rowsCleared === undefined) cumulative_rowsCleared = get_cumulative_rows_cleared(solution_pages);
 
-	if (base_field == undefined) base_field = solution_pages[0].field.copy();
+	if (base_field === undefined) base_field = solution_pages[0].field.copy();
 
-	if (base_viz == undefined) {
+	if (base_viz === undefined) {
 		var base_viz = []; // vizualizer fumen for debugging purposes
-		base_viz.push(toPage(base_field, 0));
+		base_viz.push({field: base_field});
 	}
 
-	if (base_rowsCleared == undefined) base_rowsCleared = [];
+	if (base_rowsCleared === undefined) base_rowsCleared = [];
 
 	// let score = 0;
 	let results = [];
@@ -362,22 +415,22 @@ function get_score(
 			global_y = clearedOffset(cumulative_rowsCleared[page.index], op.y);
 			op.y = global_y - inverse_clearedOffset(base_rowsCleared, global_y);
 
-            if (base_field.canLock(op)) {
-                let field = base_field.copy();
+			if (base_field.canLock(op)) {
+				let field = base_field.copy();
 				let score = 0;
 				let b2b = base_b2b;
-                let combo = base_combo;
-                let viz = [...base_viz]; // this might need to be a deep copy not sure
-                let rowsCleared = [...base_rowsCleared]; // shallow copy should work here because numbers are primitive
+				let combo = base_combo;
+				let viz = [...base_viz]; // this might need to be a deep copy not sure
+				let rowsCleared = [...base_rowsCleared]; // shallow copy should work here because numbers are primitive
 				field.put(op);
 
-				viz.push(toPage(field, viz.length));
+				viz.push({ operation: op });
 
 				let positions = op.positions();
 
 				// check for line clears
 				let y_positions = new Set();
-				for (position of positions) {
+				for (let position of positions) {
 					y_positions.add(position.y);
 				}
 				temp_rowsCleared = new Set();
@@ -406,141 +459,63 @@ function get_score(
 					for (let corner of four_corners) {
 						if (occupiedCorner(field, corner)) num_corners++;
 					}
-                    if (num_corners >= 3) {
-                        kick_index = t_spin_checker(op, base_field);
-                        // if (kick_index == -1) { // debugging purposes only - there are legitimate non tspins!
-                        //     console.log(field.str());
-                        //     console.log(encoder.encode(viz))
-                        //     throw "non tspin detected";
-                        // }
-                        if (kick_index != -1) {
-                            tspin = true;
-                            if (kick_index == 4) mini = false; // cringe SRS exception for upgrading fins
-                            else {
-                                let two_corners;
-                                switch (op.rotation) {
-                                    case 'spawn':
-                                        two_corners = [four_corners[0], four_corners[1]];
-                                        break;
-                                    case 'right':
-                                        two_corners = [four_corners[1], four_corners[2]];
-                                        break;
-                                    case 'reverse':
-                                        two_corners = [four_corners[2], four_corners[3]];
-                                        break;
-                                    case 'left':
-                                        two_corners = [four_corners[3], four_corners[0]];
-                                        break;
-                                }
-                                let num_corners = 0;
-                                for (let corner of two_corners) {
-                                    if (occupiedCorner(field, corner)) num_corners++;
-                                }
-                                if (num_corners == 2) mini = false;
-                            }
-                        }
+					if (num_corners >= 3) {
+						kick_index = t_spin_checker(op, base_field);
+						// if (kick_index == -1) { // debugging purposes only - there are legitimate non tspins!
+						//     console.log(field.str());
+						//     console.log(encoder.encode(viz))
+						//     throw "non tspin detected";
+						// }
+						if (kick_index != -1) {
+							tspin = true;
+							if (kick_index == 4 && GAME !== GAMES.JSTRIS) mini = false; // cringe SRS exception for upgrading fins
+							else {
+								let two_corners;
+								switch (op.rotation) {
+									case 'spawn':
+										two_corners = [four_corners[0], four_corners[1]];
+										break;
+									case 'right':
+										two_corners = [four_corners[1], four_corners[2]];
+										break;
+									case 'reverse':
+										two_corners = [four_corners[2], four_corners[3]];
+										break;
+									case 'left':
+										two_corners = [four_corners[3], four_corners[0]];
+										break;
+								}
+								let num_corners = 0;
+								for (let corner of two_corners) {
+									if (occupiedCorner(field, corner)) num_corners++;
+								}
+								if (num_corners == 2) mini = false;
+							}
+						}
 					}
 				}
+				if (tspin && GAME === GAMES.JSTRIS && lines_cleared >= 2) {mini = false;}
 
+				let activate_b2b = (tspin && lines_cleared > 0) || lines_cleared >= 4;
+				let multiplier = (b2b && activate_b2b) ? 1.5 : 1;
 				if (tspin) {
 					if (mini) {
-						switch (lines_cleared) {
-							case 0:
-								// console.log('t spin mini 0:', 100);
-								score += 100;
-								break;
-							case 1:
-								if (b2b) {
-									// console.log('b2b t spin mini single:', 300);
-									score += 300;
-								} else {
-									// console.log('t spin mini single:', 200);
-									score += 200;
-								}
-								break;
-							case 2:
-								if (b2b) {
-									// console.log('b2b t spin mini double:', 600); // ultra counts these as normal tsds tho... change to 1800?
-									score += 600;
-								} else {
-									// console.log('t spin mini double:', 400); // ultra counts these as normal tsds tho... change to 1200?
-									score += 400;
-								}
-								break;
-							default:
-								throw 'bruh something went wrong';
-						}
+						score += score_table_spin_mini[lines_cleared] * multiplier;
 					} else {
-						switch (lines_cleared) {
-							case 0:
-								// console.log('t spin 0:', 400);
-								score += 400;
-								break;
-							case 1:
-								if (b2b) {
-									// console.log('b2b t spin single:', 1200);
-									score += 1200;
-								} else {
-									// console.log('t spin single:', 800);
-									score += 800;
-								}
-								break;
-							case 2:
-								if (b2b) {
-									// console.log('b2b t spin double:', 1800);
-									score += 1800;
-								} else {
-									// console.log('t spin double:', 1200);
-									score += 1200;
-								}
-								break;
-							case 3:
-								if (b2b) {
-									// console.log('b2b t spin triple:', 2400);
-									score += 2400;
-								} else {
-									// console.log('t spin triple:', 1600);
-									score += 1600;
-								}
-								break;
-							default:
-								throw 'bruh something went wrong';
-						}
+						score += score_table_spin[lines_cleared] * multiplier;
 					}
-					if (lines_cleared > 0) b2b = true;
 				} else {
-					switch (lines_cleared) {
-						case 0:
-							// break the combo
-							break;
-						case 1:
-							// console.log('single:', 100);
-							score += 100;
-							break;
-						case 2:
-							// console.log('double:', 300);
-							score += 300;
-							break;
-						case 3:
-							// console.log('triple:', 500);
-							score += 500;
-							break;
-						case 4:
-							if (b2b) {
-								// console.log('b2b quad:', 1200);
-								score += 1200;
-							} else {
-								// console.log('quad:', 800);
-								score += 800;
-							}
-							b2b = true;
-							break;
-						default:
-							throw 'bruh something went wrong';
-					}
+					score += score_table_normal[lines_cleared] * multiplier;
 				}
 
-				if (!tspin && lines_cleared > 0 && lines_cleared < 4) b2b = false;
+				let noteworthy = (tspin && (!mini || (lines_cleared > 0 && b2b))) || lines_cleared >= 4;
+				let score_event = {lines_cleared, tspin, mini, b2b: !!lines_cleared && b2b};
+				/*
+				any full t-spin:         yes
+				any mini t-spin w/o b2b: no
+				any mini t-spin w/ b2b:  yes (mini nulls not included here)
+				quad:                    yes
+				*/
 
 				if (lines_cleared == 0) combo = 0;
 				else {
@@ -560,130 +535,115 @@ function get_score(
 				}
 				if (pc) {
 					// console.log('PC:', 3000);
-					// score += 3000;
-					if (b2b) score += b2b_end_bonus;
+					switch (GAME) {
+						case GAMES.TETRIO:
+							score += 3500;
+							break;
+						case GAMES.JSTRIS:
+							score += 3000;
+							break;
+						case GAMES.GUIDELINE:
+							if (lines_cleared <= 3) {score += score_table_pc[lines_cleared];}
+							else if (lines_cleared === 4) {score += b2b ? 3200 : 2000;}
+							break;
+					}
 					// return score;
 				}
 
-				if (queue.length <= 1 && !pc) score = -3000; // last piece but no PC, this path was a failure
+				if (activate_b2b) {b2b = true;}
+				else if (lines_cleared > 0) {b2b = false;}
 
-				if (queue.length <= 1 || pc) results.push(score);  // end of queue is base case for recursive function
-				else
-					results.push( // otherwise, recursively call score function to get max score on the rest of the queue
-						score +
-							get_score(
-								queue.substring(1),
-								solution_pages,
-								b2b,
-								combo,
-                                b2b_end_bonus,
-                                cumulative_rowsCleared,
-								field,
-								viz,
-								rowsCleared
-							)
-					);
+				if (queue.length <= 1 || pc) {
+					if (b2b) {score += b2b_end_bonus;}
+					results.push({score: score, extra: noteworthy ? [score_event] : [], pcs: +pc, pc_end: pc, b2b_end: b2b, solution: encoder.encode(viz)});
+					// end of queue is base case for recursive function
+				} else {
+					let score_obj = get_score(
+							queue.substring(1),
+							solution_pages,
+							b2b,
+							combo,
+							b2b_end_bonus,
+							cumulative_rowsCleared,
+							field,
+							viz,
+							rowsCleared
+						);
+					// otherwise, recursively call score function to get max score on the rest of the queue
+					score_obj.score += score;
+					if (noteworthy) {score_obj.extra.push(score_event);}
+					score_obj.pcs += pc;
+					results.push(score_obj);
+				}
 
 				// console.log(encoder.encode(viz));
 			} else {
 				// throwing an error for debugging purposes, but may want to remove this if working on non *p7 solution queues with dupes
 				// console.log(queue, encoder.encode(solution_pages));
-				// console.log(encoder.encode(base_viz));
-				// console.log(base_field.str(), op, global_y, rowsCleared);
+				// console.log(encoder.encode(viz));
+				// console.log(field.str(), op, global_y, rowsCleared);
 				throw "solution path fail; does solution queue have dupes?";
 				// return 0; // piece could not lock, solution and queue were incompatible
 			}
 		}
-    }
-    
-    if (results.length == 0) { // no piece placement applied to this piece, this path is a failure
-        // return -3000; // may want to just return -30000 if working with non *p7 solution queues with dupes
-        // console.log(queue, encoder.encode(base_viz));
-        // console.log(base_field.str())
-        throw "solution path fail; does solution queues have dupes?";
-    }
-    return Math.max(...results);
+	}
+
+	if (results.length == 0) { // no piece placement applied to this piece, this path is a failure
+		// return -3000; // may want to just return -30000 if working with non *p7 solution queues with dupes
+		// console.log(queue, encoder.encode(base_viz));
+		// console.log(base_field.str())
+		throw "solution path fail; does solution queues have dupes?";
+	}
+	return results.reduce((so0, so1) => pick_better_score(so0, so1));
 }
 
-// let memoize = {};
+function pick_better_score(so0, so1) {
+	if (!so0) {return so1;}
+	if (!so1) {return so0;}
+	if (so1.score > so0.score) {return so1;}
+	if (so0.score > so1.score) {return so0;}
+	if (so0.pc_end && !so1.pc_end) {return so0;}
+	if (so1.pc_end && !so0.pc_end) {return so1;}
+	if (so0.b2b_end && !so1.b2b_end) {return so0;}
+	if (so1.b2b_end && !so0.b2b_end) {return so1;}
+	if (so0.extra.filter(event => event.tspin).length < so1.extra.filter(event => event.tspin).length) {return so0;}
+	return so1;
+}
 
-// function loadCSV(filename) {
-// 	var fs = require('fs');
-// 	var csv = fs.readFileSync(filename, 'utf8');
-// 	var lines = csv.split(/\s+/); // this is regex for any whitespace /r /n /t /f /v
-// 	var data = {};
-// 	for (let line of lines) {
-// 		let temp = line.split(',');
-// 		data[temp[0]] = temp.slice(1);
-// 	}
-// 	return data;
-// }
 
-// let data = loadCSV('output/cover.csv');
-// let data_nohold = loadCSV('output/cover_nohold.csv');
+function loadCSV(filename) {
+	let csv = fs.readFileSync(filename, 'utf8');
+	let lines = csv.split(/\s+/); // this is regex for any whitespace /r /n /t /f /v
+	let data = {};
+	for (let line of lines) {
+		let temp = line.split(',');
+		data[temp[0]] = temp.slice(1);
+	}
+	return data;
+}
 
-// let solutions = [];
-// let solutions_cumulative_rows_cleared = [];
-
-// for (let index = 0; index < data['sequence'].length; index++) {
-// 	// load the objects of all the decoded fumens
-//     solutions.push(decoder.decode(data['sequence'][index]));
-//     solutions_cumulative_rows_cleared.push(get_cumulative_rows_cleared(solutions[index]));
-// }
-
-// let all_scores = [];
-
-// for (let queue in data) {
-// 	if (queue != 'sequence' && queue != '') {
-// 		// console.log(queue);
-
-// 		let hold_reorderings = hold_reorders(queue);
-
-// 		let max_score = -3000;
-// 		let max_queue = '';
-// 		let max_sol_index = 0;
-// 		for (let j = 0; j < data[queue].length; j++) {
-// 			if (data[queue][j] == 'O') {
-//                 let pages = solutions[j];
-//                 let cumulative_rowsCleared = solutions_cumulative_rows_cleared[j];
-// 				for (queue_2 of hold_reorderings) {
-// 					// search this queue + hold in the nohold cover data
-//                     if (!(queue_2 in data_nohold)) throw queue_2 + " not in nohold cover data"; // nohold cover data not fully generated?
-// 					valid = (queue_2 in data_nohold) && data_nohold[queue_2][j] == 'O';
-// 					if (valid) {
-// 						let property = queue_2 + j;
-// 						if (property in memoize) {
-// 							// we've already computed the score for [this queue + this solution]!
-// 							let temp = memoize[property];
-// 							if (temp > max_score) {
-// 								max_score = temp;
-// 								max_queue = queue_2;
-// 								max_sol_index = j;
-// 							}
-// 						} else {
-// 							// compute it
-// 							// queue, solution pages, initial b2b, initial combo, b2b end bonus
-// 							let temp = get_score(queue_2, pages, true, 1, 0, cumulative_rowsCleared);
-// 							memoize[property] = temp;
-// 							if (temp > max_score) {
-// 								max_score = temp;
-// 								max_queue = queue_2;
-// 								max_sol_index = j;
-// 							}
-// 						}
-// 					}
-// 				}
-// 			}
-// 		}
-// 		if (max_score == -3000) {
-// 			// change this if you know you're working with non 100% setups with fail queues
-// 			// console.log(queue, data[queue]);
-// 			throw 'PC fail queue ' + queue;
-// 		}
-// 		console.log(max_score, max_queue, data["sequence"][max_sol_index]);
-// 		all_scores.push(max_score);
-// 	}
-// }
-// console.log(all_scores.length);
-// console.log(all_scores.reduce((a, b) => a + b) / all_scores.length);
-// // console.log(Object.keys(memoize).length);
+function loadPathCSV(filename) {
+	let csv = fs.readFileSync(filename, 'utf8');
+	let rows = csv.trim().split(/\s+/).slice(1).map(s => s.split(','));
+	let queues_set = new Set;
+	let solutions_map = new Map;
+	for (let row of rows) {
+		let queue = row[0];
+		queues_set.add(queue);
+		if (row[4] === '') {continue;}
+		let solutions = row[4].split(';');
+		for (let solution of solutions) {
+			if (!solutions_map.has(solution)) {
+				solutions_map.set(solution, new Set([queue]));
+			} else {
+				solutions_map.get(solution).add(queue);
+			}
+		}
+	}
+	let solutions_list = [...solutions_map.keys()];
+	let data = {sequence: solutions_list};
+	for (let queue of queues_set) {
+		data[queue] = solutions_list.map(solution => solutions_map.get(solution).has(queue) ? 'O' : 'X');
+	}
+	return data;
+}

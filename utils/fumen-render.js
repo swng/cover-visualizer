@@ -174,7 +174,11 @@ function fumenrender(fumenCodes, container, comments = undefined) {
                 a.appendChild(img);
                 if (comments != undefined) {
                     caption = document.createElement("figcaption");
-                    caption.innerHTML = comments[index];
+                    comment = comments[index];
+                    if (typeof comment == "object") {
+                        comment = score_object_string(comment);
+                    }
+                    caption.innerHTML = comment;
                     a.appendChild(caption);
                 }
 
