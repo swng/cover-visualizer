@@ -4,25 +4,38 @@ data = [[], []];
 data_nohold = [undefined, undefined];
 setup = ['v115@vhAAgH', 'v115@vhAAgH'];
 files = [
-	['O.csv', 'S.csv', 'Z.csv', 'I.csv', 'L.csv', 'J.csv', 'T.csv'], // bag 1
-	['O-01.csv', 'O-01M.csv', 'O-02.csv', 'O-02M.csv', 'O-03.csv', 'O-03M.csv', 'O-03-1.csv', 'O-03-1M.csv', 'O-04.csv', 'O-04M.csv', 'O-04-1.csv', 'O-04-1M.csv', 'O-05.csv', 'O-05M.csv'], // bag 2
+	['O.csv', 'S.csv', 'Z.csv', 'I.csv', 'L.csv', 'J.csv', 'T.csv'], // setup
 ];
+DPC_files = {
+    O:
+    ['O-01.csv', 'O-01M.csv', 'O-02.csv', 'O-02M.csv', 'O-03.csv', 'O-03M.csv', 'O-03-1.csv', 'O-03-1M.csv', 'O-04.csv', 'O-04M.csv', 'O-04-1.csv', 'O-04-1M.csv', 'O-05.csv', 'O-05M.csv'],
+    S: ['S-01.csv', 'S-02.csv', 'S-03.csv', 'S-04.csv', 'S-05.csv', 'S-06.csv', 'S-07.csv'],
+    Z: ['Z-01.csv', 'Z-02.csv', 'Z-03.csv', 'Z-04.csv', 'Z-05.csv', 'Z-06.csv', 'Z-07.csv'],
+    I: ['I-01.csv', 'I-01M.csv', 'I-01-1.csv', 'I-01-1M.csv', 'I-01-2.csv', 'I-01-2M.csv', 'I-02.csv', 'I-02M.csv', 'I-02-1.csv', 'I-02-1M.csv', 'I-02-2.csv', 'I-02-2M.csv', 'I-03.csv', 'I-03M.csv', 'I-04.csv', 'I-04M.csv', 'I-05.csv', 'I-05M.csv', 'I-06.csv', 'I-06M.csv', 'I-07.csv', 'I-07M.csv', 'I-08M.csv', 'I-08.csv', 'I-09.csv', 'I-09M.csv', 'I-10.csv', 'I-10M.csv', 'I-11.csv', 'I-11M.csv', 'I-12.csv', 'I-12M.csv', 'I-13.csv', 'I-13M.csv'],
+    J: ['J-01.csv', 'J-02.csv', 'J-02-1.csv', 'J-03.csv', 'J-04.csv', 'J-04-1.csv', 'J-05.csv', 'J-06.csv', 'J-06-1.csv', 'J-07.csv', 'J-08.csv'],
+    L: ['L-01.csv', 'L-02.csv', 'L-02-1.csv', 'L-03.csv', 'L-04.csv', 'L-04-1.csv', 'L-05.csv', 'L-06.csv', 'L-06-1.csv', 'L-07.csv', 'L-08.csv'],
+    T: ['T-01.csv', 'T-02.csv', 'T-02M.csv', 'T-03.csv', 'T-03M.csv', 'T-04.csv', 'T-04-M.csv']
+}
 
 // populate dropdowns for each bag with files
-for (i = 0; i < data.length; i++) {
+for (i = 0; i < 1; i++) {
 	dropdown = document.getElementById(`bag ${i + 1} files`);
 	for (filename of files[i]) {
 		dropdown.append(new Option(filename));
 	}
 }
+// dropdown = document.getElementById(`bag 2 files`);
+// for (filename of DPC_files["O"]) {
+//     dropdown.append(new Option(filename));
+// }
 
-function loadIncludedFile(bag_num) {
+async function loadIncludedFile(bag_num) {
 	if (bag_num != 1 && bag_num != 2) return;
 
 	filename = document.getElementById(`bag ${bag_num} files`).value; // .replace(/ /g, '%20') ??
 	const url = window.location.href.replace('index.html', '').replace('/dpc', '') + 'cover_csvs/dpc/' + filename;
 	console.log(url);
-	fetch(url)
+	await fetch(url)
 		.then((r) => r.text())
 		.then((t) => {
 			data[bag_num - 1] = $.csv.toArrays(t);
@@ -36,7 +49,7 @@ function loadIncludedFile(bag_num) {
 				console.log('Sample queue: ' + mirrored_queue);
 			} else console.log('Sample queue: ' + data[bag_num - 1][2][0]);
 
-			container = document.getElementById(`setup ${bag_num} preview`);
+			let container = document.getElementById(`setup ${bag_num} preview`);
 
 			fumen = data[bag_num - 1][0][1];
 			pages = decoder.decode(fumen);
@@ -47,6 +60,20 @@ function loadIncludedFile(bag_num) {
 				fumenrender(mirrorFumen([setup[bag_num - 1]]), container);
 			} else fumenrender([setup[bag_num - 1]], container);
         });
+    
+    if (bag_num == 1) {
+        let temp = document.getElementById("hold_piece");
+        let temp2 = (document.getElementById(`bag 1 files`).value)[0];
+        temp.textContent = temp2;
+        temp.className = temp2 + "_mino";
+
+        dropdown = document.getElementById(`bag 2 files`);
+        dropdown.options.length = 0;
+        for (filename of DPC_files[temp2]) {
+            dropdown.append(new Option(filename));
+        }
+
+    }
     
     if (bag_num == 2) {
         fetch(url.slice(0, -4) + " nohold.csv") // may throw error if nohold cover data doesn't exist
@@ -105,7 +132,7 @@ document.addEventListener('keyup', (event) => {
 	}
 });
 
-function search(bag_num) {
+async function search(bag_num) {
 	container = document.getElementById(`container ${bag_num}`);
 	queue = document.getElementById(`bag ${bag_num} queue`).value;
 
@@ -123,7 +150,16 @@ function search(bag_num) {
 		return;
 	}
 
-	queue = queue.replace(/[^LJIOSZT]/g, ''); // only allow characters that are tetraminoes in the queue
+    queue = queue.replace(/[^LJIOSZT]/g, ''); // only allow characters that are tetraminoes in the queue
+    
+    if (bag_num == 1 && queue.length > 7) {
+        let held_piece = queue[0];
+        if (queue.slice(1).includes(held_piece)) { // the user inputted the dupe piece
+            queue = queue.slice(1);
+            document.getElementById('bag 1 files').value = held_piece + ".csv";
+            await loadIncludedFile(1);
+        }
+    }
 
 	console.log(`Searching with queue '${queue}'`);
 	document.getElementById(`bag ${bag_num} queue`).value = queue;
