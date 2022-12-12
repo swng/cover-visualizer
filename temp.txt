@@ -1,0 +1,34 @@
+I-01/TKI
+I-01M/TKI
+I-01-1/TKI Alt
+I-01-1M/TKI Alt
+I-01-2/TKI Alt
+I-01-2M/TKI Alt
+I-02/Bad TKI
+I-02M/Bad TKI
+I-02-1/Bad TKI
+I-02-1M/Bad TKI
+I-02-2/Bad TKI
+I-02-2M/Bad TKI
+I-03/Stacked I
+I-03M/Stacked I
+I-04/TKI 2
+I-04M/TKI 2o
+I-05/Big J
+I-05M/Big L
+I-06/TSD
+I-06M/TSD
+I-07/Quad
+I-07M/Quad
+I-08M/Butter Ripoff
+I-08/Butter Ripoff
+I-09/Bad TKI 2
+I-09M/Bad TKI 2
+I-10/Broken Box
+I-10M/Broken Box
+I-11/Stacked I 2
+I-11M/Stacked I 2
+I-12/Shifted TKI
+I-12M/Shifted TKI
+I-13/LI Tower
+I-13M/JI Tower
