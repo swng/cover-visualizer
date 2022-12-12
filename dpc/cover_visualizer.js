@@ -14,7 +14,7 @@ DPC_files = {
     I: ['I-01.csv', 'I-01M.csv', 'I-01-1.csv', 'I-01-1M.csv', 'I-01-2.csv', 'I-01-2M.csv', 'I-02.csv', 'I-02M.csv', 'I-02-1.csv', 'I-02-1M.csv', 'I-02-2.csv', 'I-02-2M.csv', 'I-03.csv', 'I-03M.csv', 'I-04.csv', 'I-04M.csv', 'I-05.csv', 'I-05M.csv', 'I-06.csv', 'I-06M.csv', 'I-07.csv', 'I-07M.csv', 'I-08M.csv', 'I-08.csv', 'I-09.csv', 'I-09M.csv', 'I-10.csv', 'I-10M.csv', 'I-11.csv', 'I-11M.csv', 'I-12.csv', 'I-12M.csv', 'I-13.csv', 'I-13M.csv'],
     J: ['J-01.csv', 'J-02.csv', 'J-02-1.csv', 'J-03.csv', 'J-04.csv', 'J-04-1.csv', 'J-05.csv', 'J-06.csv', 'J-06-1.csv', 'J-07.csv', 'J-08.csv'],
     L: ['L-01.csv', 'L-02.csv', 'L-02-1.csv', 'L-03.csv', 'L-04.csv', 'L-04-1.csv', 'L-05.csv', 'L-06.csv', 'L-06-1.csv', 'L-07.csv', 'L-08.csv'],
-    T: ['T-01.csv', 'T-02.csv', 'T-02M.csv', 'T-03.csv', 'T-03M.csv', 'T-04.csv', 'T-04-M.csv']
+    T: ['T-01.csv', 'T-02.csv', 'T-02M.csv', 'T-03.csv', 'T-03M.csv', 'T-04.csv', 'T-04M.csv']
 }
 
 // populate dropdowns for each bag with files
@@ -33,7 +33,7 @@ async function loadIncludedFile(bag_num) {
 	if (bag_num != 1 && bag_num != 2) return;
 
 	filename = document.getElementById(`bag ${bag_num} files`).value; // .replace(/ /g, '%20') ??
-	const url = window.location.href.replace('index.html', '').replace('/dpc', '') + 'cover_csvs/dpc/' + filename;
+	const url = '../cover_csvs/dpc/' + filename;
 	console.log(url);
 	await fetch(url)
 		.then((r) => r.text())
@@ -300,6 +300,25 @@ async function search(bag_num) {
 		}
 	}
 
+    if (bag_num == 1) {
+        for (figure of container.children) {
+            let setup_name = figure.lastChild.lastChild.textContent.split('/')[0]; // bruh
+            held_piece = setup_name[0];
+            if (held_piece in DPC_files && DPC_files[held_piece].includes(setup_name + ".csv")) {
+                figure.onclick = async function () {
+                    var url = new URL(window.location.href);
+                    url.searchParams.set("held_piece", held_piece);
+                    url.searchParams.set("setup", setup_name);
+                    window.history.replaceState(null, '', url);
+
+                    document.getElementById('bag 2 files').value = setup_name + ".csv";
+                    await loadIncludedFile(2);
+                    search(2);
+                };
+            }
+        }
+    }
+
 	render_mino_font();
 }
 
@@ -377,3 +396,21 @@ function mirror_mino_text() {
 // }, '2000');
 
 render_mino_font();
+
+async function loadQuery() {
+    const urlSearchParams = new URLSearchParams(window.location.search);
+    held_piece = urlSearchParams.get("held_piece");
+    if ("LJSZIOT".includes(held_piece)) {
+        document.getElementById('bag 1 files').value = held_piece + ".csv";
+        await loadIncludedFile(1);
+    }
+
+    setup_name = urlSearchParams.get("setup");
+    if (held_piece in DPC_files && DPC_files[held_piece].includes(setup_name + ".csv")) {
+        document.getElementById('bag 2 files').value = setup_name + ".csv";
+        await loadIncludedFile(2);
+        search(2);
+    }
+}
+
+loadQuery();

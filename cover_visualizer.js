@@ -57,7 +57,7 @@ function loadFile() {
 
 function loadIncludedFile() {
 	filename = document.getElementById('files').value; // .replace(/ /g, '%20') ??
-	const url = window.location.href.replace('index.html', '') + 'cover_csvs/' + filename;
+	const url = './cover_csvs/' + filename;
 	fetch(url)
 		.then((r) => r.text())
 		.then((t) => {

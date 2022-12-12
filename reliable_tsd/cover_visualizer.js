@@ -33,7 +33,7 @@ function loadIncludedFile(bag_num) {
 	if (bag_num != 1 && bag_num != 2 && bag_num != 3 && bag_num != 4 && bag_num != 5 && bag_num != 6) return;
 
 	filename = document.getElementById(`bag ${bag_num} files`).value; // .replace(/ /g, '%20') ??
-	const url = window.location.href.replace('index.html', '').replace('/reliable_tsd', '') + 'cover_csvs/' + filename;
+	const url = '../cover_csvs/' + filename;
 	console.log(url);
 	fetch(url)
 		.then((r) => r.text())
