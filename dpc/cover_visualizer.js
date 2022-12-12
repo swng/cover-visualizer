@@ -196,7 +196,7 @@ async function search(bag_num) {
                                 if (!(queue_2 in data_nohold[bag_num - 1])) throw queue_2 + " not in nohold cover data"; // nohold cover data not fully generated?
                                 valid = (queue_2 in data_nohold[bag_num - 1]) && data_nohold[bag_num - 1][queue_2][i] == 'O';
                                 if (valid) {
-                                    let score_obj = get_score(queue_2, pages, true, 1, 600);
+                                    let score_obj = get_score(queue_2, pages, true, 1, 400);
                                     if (max_score_obj !== pick_better_score(score_obj, max_score_obj)) {
                                         max_score_obj = score_obj;
                                         max_queue = queue;
