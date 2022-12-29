@@ -29,7 +29,7 @@ let score_table_pc        = [ NaN,  800, 1200, 1800,  NaN]; // only used for gui
 // }
 
 function score_object_string(score_object) {
-    let result = score_object.score;
+    let result = score_object.score.toString();
     for (extra of [...score_object.extra].reverse()) {
         // {"lines_cleared":2,"tspin":true,"mini":false,"b2b":true}
         // result += JSON.stringify(extra);

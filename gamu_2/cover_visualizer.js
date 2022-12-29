@@ -192,6 +192,9 @@ function search(bag_num) {
 						else comments.push(data[bag_num - 1][1][i]);
 					}
                 }
+                if (data_nohold[bag_num - 1] != undefined) { // render comments as strings
+                    comments = comments.map(comment => score_object_string(comment));
+                }
 
 				solutions = unglueFumen(solutions);
 

@@ -199,7 +199,10 @@ function search(bag_num) {
                         }
 						else comments.push(data[bag_num - 1][1][i]);
 					}
-				}
+                }
+                if (data_nohold[bag_num - 1] != undefined) { // render comments as strings
+                    comments = comments.map(comment => score_object_string(comment));
+                }
 
 				solutions = unglueFumen(solutions);
 
@@ -208,7 +211,7 @@ function search(bag_num) {
 				if (data[bag_num - 1][1][0] == 'comments') {
 					if (document.getElementById('mirror').checked) {
 						mirrored_comments = [];
-						comments.forEach((comment) => {
+                        comments.forEach((comment) => {
 							let pieces = [...comment.matchAll(/[TLJSZIO]_tetramino/g)]; // yay regex
 							pieces.forEach((piece) => {
 								piece_name = piece[0];
