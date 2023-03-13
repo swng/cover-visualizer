@@ -1,0 +1,261 @@
+<html>
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+	<script src="../utils/jquery-csv.js"></script>
+
+	<script src="../utils/tetris-fumen.js"></script>
+	<script type="text/javascript" src="../utils/LZWEncoder.js"></script>
+	<script type="text/javascript" src="../utils/NeuQuant.js"></script>
+	<script type="text/javascript" src="../utils/GIFEncoder.js"></script>
+	<script type="text/javascript" src="../utils/b64.js"></script>
+
+    <script src="../utils/mirrorFumen.js"></script>
+	<script src="../utils/unglueFumen.js"></script>
+	<script src="../utils/fumen-render.js"></script>
+	<script defer src="./cover_visualizer.js"></script>
+
+    <link rel="stylesheet" type="text/css" href="../cover_visualizer.css" />
+
+	<head>
+		<title>Secret Grade Degenerate Guide</title>
+	</head>
+	<body>
+		<h1>Secret Grade Degenerate Guide</h1>
+        For maximum degeneracy, you can use this guide to brute-force secret grade. On a 20 tall board, you may have to freestyle bag 10, or you can do secret grade in Custom Mode with a 25 tall board, and still get the achievement... Guide inspired by: <a href="https://docs.google.com/document/d/1WTfyxoqsnejrUABjMbwCz9iKtGis92GhyeTUBQAsEaQ/">fivo's doc</a>. 
+        <br>
+        <br>
+        The secret grade build can be split into 9 different smaller builds, each using a full bag and filling 2L of the secret grade build.
+        <br>
+        A full bag can create 28 blocks (7x4), which accounts for 2L with 1 hole each, and one complete line (9+9+10).
+        <br>
+        <br>
+        Notes:
+        <br>
+        The builds shown next are not minimal sets.
+        <br>
+        They are full sets which show every possible way of building the shape in question.
+        <br>
+        A minimal set only shows the necessary builds to cover any possible queue.
+        <br>
+        Tip: If you encounter a bag on which no build is covered, simply do a 35 piece 14L loop on top such as PCO-2nd-DPC (beware holes). After this loop you should have a refreshed bag to try again.
+
+
+	</body>
+	<br />
+	<br />
+
+    <input type="checkbox" id="mirror" name="mirror" value = false />
+	<label for="mirror"> Mirror</label>
+
+    <br>
+    <br>
+    Bag 1: 98.13%
+    <br>
+    <br>
+
+	<label for="bag 1 files">Load bag 1 setup:</label>
+	<select id="bag 1 files" name="bag 1 files"></select>
+	<button type="button" onclick="loadIncludedFile(1)">Load</button>
+
+	<div id="setup 1 preview"></div>
+	<br />
+	See which queues apply to which setups.
+	<br />
+	<br />
+
+	Queue:
+	<input type="text" id="bag 1 queue" />
+	<br />
+	<br />
+	<div id="container 1"></div>
+    <br />
+
+    Bag 2: 100%
+    <br>
+    <br>
+
+
+
+    <label for="bag 2 files">Load bag 2 setup:</label>
+	<select id="bag 2 files" name="bag 2 files"></select>
+	<button type="button" onclick="loadIncludedFile(2)">Load</button>
+
+	<div id="setup 2 preview"></div>
+	<br />
+	See which queues apply to which setups.
+	<br />
+	<br />
+
+	Queue:
+	<input type="text" id="bag 2 queue" />
+	<br />
+	<br />
+	<div id="container 2"></div>
+    <br />
+
+    Bag 3: 100%
+    <br>
+    <br>
+    <label for="bag 3 files">Load bag 3 setup:</label>
+	<select id="bag 3 files" name="bag 3 files"></select>
+	<button type="button" onclick="loadIncludedFile(3)">Load</button>
+
+	<div id="setup 3 preview"></div>
+	<br />
+	See which queues apply to which setups.
+	<br />
+	<br />
+
+	Queue:
+	<input type="text" id="bag 3 queue" />
+	<br />
+	<br />
+	<div id="container 3"></div>
+    
+    <br />
+    Bag 4: 100%
+    <br>
+    <br>
+    <label for="bag 4 files">Load bag 4 setup:</label>
+	<select id="bag 4 files" name="bag 4 files"></select>
+	<button type="button" onclick="loadIncludedFile(4)">Load</button>
+
+	<div id="setup 4 preview"></div>
+	<br />
+	See which queues apply to which setups.
+	<br />
+	<br />
+
+	Queue:
+	<input type="text" id="bag 4 queue" />
+	<br />
+	<br />
+	<div id="container 4"></div>
+    <br />
+
+    <br />
+    Bag 5: 99.13%
+    <br>
+    <br>
+    <label for="bag 5 files">Load bag 5 setup:</label>
+	<select id="bag 5 files" name="bag 5 files"></select>
+	<button type="button" onclick="loadIncludedFile(5)">Load</button>
+
+	<div id="setup 5 preview"></div>
+	<br />
+	See which queues apply to which setups.
+	<br />
+	<br />
+
+	Queue:
+	<input type="text" id="bag 5 queue" />
+	<br />
+	<br />
+	<div id="container 5"></div>
+    <br />
+
+    Bag 6: 66.79% RIP
+    <br>
+    <br>
+
+	<label for="bag 6 files">Load bag 6 setup:</label>
+	<select id="bag 6 files" name="bag 6 files"></select>
+	<button type="button" onclick="loadIncludedFile(6)">Load</button>
+
+	<div id="setup 6 preview"></div>
+	<br />
+	See which queues apply to which setups.
+	<br />
+	<br />
+
+	Queue:
+	<input type="text" id="bag 6 queue" />
+	<br />
+	<br />
+	<div id="container 6"></div>
+    <br />
+
+    Bag 7: 99.84%
+    <br>
+    <br>
+
+	<label for="bag 7 files">Load bag 7 setup:</label>
+	<select id="bag 7 files" name="bag 7 files"></select>
+	<button type="button" onclick="loadIncludedFile(7)">Load</button>
+
+	<div id="setup 7 preview"></div>
+	<br />
+	See which queues apply to which setups.
+	<br />
+	<br />
+
+	Queue:
+	<input type="text" id="bag 7 queue" />
+	<br />
+	<br />
+	<div id="container 7"></div>
+    <br />
+
+    Bag 8: 100%
+    <br>
+    <br>
+
+	<label for="bag 8 files">Load bag 8 setup:</label>
+	<select id="bag 8 files" name="bag 8 files"></select>
+	<button type="button" onclick="loadIncludedFile(8)">Load</button>
+
+	<div id="setup 8 preview"></div>
+	<br />
+	See which queues apply to which setups.
+	<br />
+	<br />
+
+	Queue:
+	<input type="text" id="bag 8 queue" />
+	<br />
+	<br />
+	<div id="container 8"></div>
+    <br />
+
+    Bag 9: 93.81%
+    <br>
+    <br>
+
+	<label for="bag 9 files">Load bag 9 setup:</label>
+	<select id="bag 9 files" name="bag 9 files"></select>
+	<button type="button" onclick="loadIncludedFile(9)">Load</button>
+
+	<div id="setup 9 preview"></div>
+	<br />
+	See which queues apply to which setups.
+	<br />
+	<br />
+
+	Queue:
+	<input type="text" id="bag 9 queue" />
+	<br />
+	<br />
+	<div id="container 9"></div>
+    <br />
+
+	Bag 10: Make one hole and cover it. Lots of solutions for this. If playing on a tall board, these should be sufficient:
+    <br>
+    <br>
+
+	<label for="bag 10 files">Load bag 10 setup:</label>
+	<select id="bag 10 files" name="bag 10 files"></select>
+	<button type="button" onclick="loadIncludedFile(10)">Load</button>
+
+	<div id="setup 10 preview"></div>
+	<br />
+	See which queues apply to which setups.
+	<br />
+	<br />
+
+	Queue:
+	<input type="text" id="bag 10 queue" />
+	<br />
+	<br />
+	<div id="container 10"></div>
+    <br />
+
+</html>
