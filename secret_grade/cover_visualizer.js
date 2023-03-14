@@ -60,13 +60,13 @@ document.getElementById('mirror').addEventListener('change', (e) => {
     mirror_mino_text();
 	if (e.target.checked) {
 		console.log('mirrored orientation');
-		for (bag_num = 1; bag_num < 4; bag_num++) {
+		for (bag_num = 1; bag_num < files.length; bag_num++) {
 			container = document.getElementById(`setup ${bag_num} preview`);
 			fumenrender(mirrorFumen([setup[bag_num - 1]]), container);
 		}
 	} else {
 		console.log('standard orientation');
-		for (bag_num = 1; bag_num < 4; bag_num++) {
+		for (bag_num = 1; bag_num < files.length; bag_num++) {
 			container = document.getElementById(`setup ${bag_num} preview`);
 			fumenrender([setup[bag_num - 1]], container);
 		}
@@ -80,13 +80,13 @@ document.addEventListener('keyup', (event) => {
 
 		if (document.getElementById('mirror').checked) {
 			console.log('mirrored orientation');
-			for (bag_num = 1; bag_num < 4; bag_num++) {
+			for (bag_num = 1; bag_num < files.length; bag_num++) {
 				container = document.getElementById(`setup ${bag_num} preview`);
 				fumenrender(mirrorFumen([setup[bag_num - 1]]), container);
 			}
 		} else {
 			console.log('standard orientation');
-			for (bag_num = 1; bag_num < 4; bag_num++) {
+			for (bag_num = 1; bag_num < files.length; bag_num++) {
 				container = document.getElementById(`setup ${bag_num} preview`);
 				fumenrender([setup[bag_num - 1]], container);
 			}
@@ -269,6 +269,30 @@ document.getElementById('bag 5 queue').addEventListener('keyup', (event) => {
 document.getElementById('bag 6 queue').addEventListener('keyup', (event) => {
 	if (event.key !== 'Enter') return; // Use `.key` instead.
 	search(6);
+	event.preventDefault(); // No need to `return false;`.
+});
+
+document.getElementById('bag 6 queue').addEventListener('keyup', (event) => {
+	if (event.key !== 'Enter') return; // Use `.key` instead.
+	search(7);
+	event.preventDefault(); // No need to `return false;`.
+});
+
+document.getElementById('bag 6 queue').addEventListener('keyup', (event) => {
+	if (event.key !== 'Enter') return; // Use `.key` instead.
+	search(8);
+	event.preventDefault(); // No need to `return false;`.
+});
+
+document.getElementById('bag 6 queue').addEventListener('keyup', (event) => {
+	if (event.key !== 'Enter') return; // Use `.key` instead.
+	search(9);
+	event.preventDefault(); // No need to `return false;`.
+});
+
+document.getElementById('bag 6 queue').addEventListener('keyup', (event) => {
+	if (event.key !== 'Enter') return; // Use `.key` instead.
+	search(10);
 	event.preventDefault(); // No need to `return false;`.
 });
 
