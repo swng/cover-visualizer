@@ -272,25 +272,25 @@ document.getElementById('bag 6 queue').addEventListener('keyup', (event) => {
 	event.preventDefault(); // No need to `return false;`.
 });
 
-document.getElementById('bag 6 queue').addEventListener('keyup', (event) => {
+document.getElementById('bag 7 queue').addEventListener('keyup', (event) => {
 	if (event.key !== 'Enter') return; // Use `.key` instead.
 	search(7);
 	event.preventDefault(); // No need to `return false;`.
 });
 
-document.getElementById('bag 6 queue').addEventListener('keyup', (event) => {
+document.getElementById('bag 8 queue').addEventListener('keyup', (event) => {
 	if (event.key !== 'Enter') return; // Use `.key` instead.
 	search(8);
 	event.preventDefault(); // No need to `return false;`.
 });
 
-document.getElementById('bag 6 queue').addEventListener('keyup', (event) => {
+document.getElementById('bag 9 queue').addEventListener('keyup', (event) => {
 	if (event.key !== 'Enter') return; // Use `.key` instead.
 	search(9);
 	event.preventDefault(); // No need to `return false;`.
 });
 
-document.getElementById('bag 6 queue').addEventListener('keyup', (event) => {
+document.getElementById('bag 10 queue').addEventListener('keyup', (event) => {
 	if (event.key !== 'Enter') return; // Use `.key` instead.
 	search(10);
 	event.preventDefault(); // No need to `return false;`.
