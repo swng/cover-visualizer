@@ -1,0 +1,131 @@
+<html>
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+	<script src="../utils/jquery-csv.js"></script>
+
+	<script src="../utils/tetris-fumen.js"></script>
+	<script type="text/javascript" src="../utils/LZWEncoder.js"></script>
+	<script type="text/javascript" src="../utils/NeuQuant.js"></script>
+	<script type="text/javascript" src="../utils/GIFEncoder.js"></script>
+	<script type="text/javascript" src="../utils/b64.js"></script>
+
+    <script src="../utils/mirrorFumen.js"></script>
+	<script src="../utils/unglueFumen.js"></script>
+	<script src="../utils/fumen-render.js"></script>
+	<script defer src="./cover_visualizer.js"></script>
+
+    <link rel="stylesheet" type="text/css" href="../cover_visualizer.css" />
+	<link rel="icon" href="https://cdn.discordapp.com/attachments/1051419206148685894/1085704408345612399/uEf2FZVDMgO7LBFafSHfwEaZYXsz3Q82AAAAABJRU5ErkJggg.png">
+
+	<head>
+		<title>Flattop LST</title>
+	</head>
+	<body>
+		<h1>Flattop LST</h1>
+        Insert commentary. Guide data: <a href="https://docs.google.com/spreadsheets/d/1N1DiLBbh6ZnRT36X-_B5J2ilzU5e7u81dJLGGIHpdA8/">my own research sheet</a>. 
+        <br>
+        <br>
+        Insert commentary.
+
+
+
+	</body>
+	<br />
+	<br />
+
+    <input type="checkbox" id="mirror" name="mirror" value = false />
+	<label for="mirror"> Mirror</label>
+
+    <br>
+    <br>
+    Bag 1: Flattop has two congruent forms, 61.67% together; 66.67% with mirroring.
+    <br>
+    <br>
+
+	<label for="bag 1 files">Load bag 1 setup:</label>
+	<select id="bag 1 files" name="bag 1 files"></select>
+	<button type="button" onclick="loadIncludedFile(1)">Load</button>
+
+	<div id="setup 1 preview"></div>
+	<br />
+	See which queues apply to which setups.
+	<br />
+	<br />
+
+	Queue:
+	<input type="text" id="bag 1 queue" />
+	<br />
+	<br />
+	<div id="container 1"></div>
+    <br />
+
+    Bag 2: Several builds are included here. 5 minimals are needed to hit 100% coverage bag 2.
+    <br>
+    Notes:
+    <br>
+    Box is the most intuitive build, but its bag3 continuations are kinda shaky.
+    <br>
+    Impcross into midgame is probably a safer path than trying to force LST.
+    <br>
+    L_tetraminoO_tetraminoJ_tetramino box build is offered as an alternative to box - in theory the bag3 continuations are more consistently clean, but in practice, you can choose to just use box for intuitiveness/KPP reasons.
+    <br>
+    The path labelled "metallicLurker's I_tetraminoJ_tetraminoL_tetraminoO_tetramino thing" is necessary for some rare queues with that piece order on bag 2. Skull emoji path also works for those problem queues, but we were unable to map out 100% bag3s to that field.
+    <br>
+    See <a href="https://swng.github.io/fumen/?D115@BhilFeAtglR4Beg0RpBtR4Ceg0RpAtzhAeh0JeAgWQ?AmC0dEFbEcEPJ98AQ+5LCvhAlsQAAVhi0FeAtg0xhBeglJe?AAA4gRpCewhBeBtRpCewhCeBtDewhilDeR4whglEeR4KeAA?P8AToo2AiIHNEy488AwW88ADoo2Ao3MoDFbEVCFbcRAS0+U?BOonRAyv78AwM9dEVJ98AQL0dEloAVBvhBlnQAAAAAOhi0I?eg0TeAAAChxwCeQ4BeBtxwilQ4CeBtSpglQ4g0EexhKeAAP?LARYcRAyv78AQ4PBAagzhglGeilOei0RpGeg0RpKeywHeww?QeAAPkAT38kElN98AwByrDFbU6D192TAS4+4DnN8nEFbsYE?0gvuD">here</a> for the TSS into 100% 8L path.
+    <br>
+    <br>
+
+
+
+    <label for="bag 2 files">Load bag 2 setup:</label>
+	<select id="bag 2 files" name="bag 2 files"></select>
+	<button type="button" onclick="loadIncludedFile(2)">Load</button>
+
+	<div id="setup 2 preview"></div>
+	<br />
+	See which queues apply to which setups.
+	<br />
+	<br />
+
+	Queue:
+	<input type="text" id="bag 2 queue" />
+	<br />
+	<br />
+	<div id="container 2"></div>
+    <br />
+
+    Bag 3: Continuations for the bag3s to the preceding bag2 builds are offered here.
+    <br>
+    Notice how cursed some of the box bag3s are. Some bags just don't allow clean LST continuations off this field.
+    <br>
+    J_tetraminospin build is mostly clean LST. 99.72% LST. STSD build to hit 100%. I don't personally like the STSD build field.
+    <br>
+    Notice how clean build B is. 2 Builds hit 100% (choose based on L_tetraminoO_tetramino order), the third is just extra.
+    <br>
+    C is similar to B, has some congruences. The O_tetraminoS_tetraminoZ_tetramino stairs stuff has pretty high coverage alone, but a lot more builds are required to hit 100%.
+    <br>
+    D has pretty clean continuations. 96.67% LST, 100% including the incomplete TSTs.
+    <br>
+    Insert commentary about the L_tetraminoO_tetraminoJ_tetramino box alternative and mL I_tetraminoJ_tetraminoL_tetraminoO_tetramino thing paths. They're technicaly 2minimal, with extra cleaner builds included.
+    <br>
+    Skull emoji path bag3s are not mapped out to 100%.
+    <br>
+    <br>
+    <label for="bag 3 files">Load bag 3 setup:</label>
+	<select id="bag 3 files" name="bag 3 files"></select>
+	<button type="button" onclick="loadIncludedFile(3)">Load</button>
+
+	<div id="setup 3 preview"></div>
+	<br />
+	See which queues apply to which setups.
+	<br />
+	<br />
+
+	Queue:
+	<input type="text" id="bag 3 queue" />
+	<br />
+	<br />
+	<div id="container 3"></div>
+    
+    <br />
+
+</html>
