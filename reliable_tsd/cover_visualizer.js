@@ -8,6 +8,7 @@ files = [
 	[
 		'reliable bag 3 STSD path cover.csv',
 		'reliable bag 3 fallback path cover.csv',
+		'reliable bag 3 vert I path cover.csv',
     ], // bag 3
     [
 		'reliable bag 4 STSD path cover.csv',
@@ -29,13 +30,13 @@ for (i = 0; i < 6; i++) {
 	}
 }
 
-function loadIncludedFile(bag_num) {
+async function loadIncludedFile(bag_num) {
 	if (bag_num != 1 && bag_num != 2 && bag_num != 3 && bag_num != 4 && bag_num != 5 && bag_num != 6) return;
 
 	filename = document.getElementById(`bag ${bag_num} files`).value; // .replace(/ /g, '%20') ??
 	const url = '../cover_csvs/' + filename;
 	console.log(url);
-	fetch(url)
+	await fetch(url)
 		.then((r) => r.text())
 		.then((t) => {
 			data[bag_num - 1] = $.csv.toArrays(t);
@@ -334,9 +335,16 @@ function mirror_mino_text() {
 }
 
 
-loadIncludedFile(1); loadIncludedFile(2); loadIncludedFile(6); // tends to take 1-2 seconds to load
-setTimeout(() => {
-    search(1); search(6);
-}, '2000');
+async function preloadSetups() {
+    await loadIncludedFile(1);
+    await loadIncludedFile(2);
+    await loadIncludedFile(6);
+
+    await search(1);
+    await search(2);
+    await search(6);
+}
+
+preloadSetups();
 
 render_mino_font();
