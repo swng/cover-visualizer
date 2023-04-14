@@ -1,0 +1,142 @@
+<html>
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+	<script src="../utils/jquery-csv.js"></script>
+
+	<script src="../utils/tetris-fumen.js"></script>
+	<script type="text/javascript" src="../utils/LZWEncoder.js"></script>
+	<script type="text/javascript" src="../utils/NeuQuant.js"></script>
+	<script type="text/javascript" src="../utils/GIFEncoder.js"></script>
+	<script type="text/javascript" src="../utils/b64.js"></script>
+
+    <script src="../utils/mirrorFumen.js"></script>
+	<script src="../utils/unglueFumen.js"></script>
+	<script src="../utils/fumen-render.js"></script>
+	<script defer src="./cover_visualizer.js"></script>
+    <script src="../utils/get_score.js"></script>
+
+    <link rel="stylesheet" type="text/css" href="../cover_visualizer.css" />
+    <link rel="icon" href="https://cdn.discordapp.com/attachments/1051419206148685894/1096560407923142696/8CEMCF7Bly4ZgAAAAASUVORK5CYII.png">
+
+	<head>
+		<title>Tsar Cannon</title>
+	</head>
+	<body>
+		<h1>Tsar Cannon</h1>
+		This is a setup that exists. Guide source: <a href="https://tetris.johnbeak.cz/8l/tsar_cannon.php">John Beak's page</a>. 
+        <br>
+        Tsar Cannon is yet another TD 8L opener thing. It has 83.33% buildrate (93.89% with mirror), and a single build for bag2 (with 180). It is currently the highest average scoring known 8L TD, with 98.69% PC chance.
+	</body>
+	<br />
+	<br />
+
+    <input type="checkbox" id="mirror" name="mirror" value = false />
+	<label for="mirror"> Mirror</label>
+
+    <br>
+    <br>
+    Tsar Cannon is buildable when J_tetramino>S_tetramino and I_tetramino>O_tetramino.
+    <br>
+    <br>
+
+	<label for="bag 1 files">Load bag 1 setup:</label>
+	<select id="bag 1 files" name="bag 1 files"></select>
+	<button type="button" onclick="loadIncludedFile(1)">Load</button>
+
+	<div id="setup 1 preview"></div>
+	<br />
+	See which queues apply to which setups.
+	<br />
+	<br />
+
+	Queue:
+	<input type="text" id="bag 1 queue" />
+	<br />
+	<br />
+	<div id="container 1"></div>
+    <br />
+
+    Bag 2, complete the TD setup. With 180 spin, only one build is required.
+    <br>
+    Some rare queues <a href="https://tetris.johnbeak.cz/8l/img/tsar_cannon-gravity-wait.gif">require 1 gravity wait on the L_tetramino tuck</a>. This can be avoided <a href="https://tetris.johnbeak.cz/8l/img/tsar-skim.gif">if you forgo TST for TSM + skims</a>.
+    <br>
+    <br>
+
+    <label for="bag 2 files">Load bag 2 setup:</label>
+	<select id="bag 2 files" name="bag 2 files"></select>
+	<button type="button" onclick="loadIncludedFile(2)">Load</button>
+
+	<div id="setup 2 preview"></div>
+	<br />
+	See which queues apply to which setups.
+	<br />
+	<br />
+
+	Queue:
+	<input type="text" id="bag 2 queue" />
+	<br />
+	<br />
+	<div id="container 2"></div>
+    <br />
+
+    Complete an 8L PC on bag 3. There is 98.69% 8L PC chance.
+    <br>
+    Alternatively, there is a 100% 14L path.
+    <br>
+    <br>
+    <label for="bag 3 files">Load bag 3 setup:</label>
+	<select id="bag 3 files" name="bag 3 files"></select>
+	<button type="button" onclick="loadIncludedFile(3)">Load</button>
+
+	<div id="setup 3 preview"></div>
+	<br />
+	See which queues apply to which setups.
+	<br />
+	<br />
+
+	Queue:
+	<input type="text" id="bag 3 queue" />
+	<br />
+	<br />
+	<div id="container 3"></div>
+    <br />
+
+    Bag 4 (of 14L path):
+    <br>
+    <br>
+    <label for="bag 4 files">Load bag 4 setup:</label>
+	<select id="bag 4 files" name="bag 4 files"></select>
+	<button type="button" onclick="loadIncludedFile(4)">Load</button>
+
+	<div id="setup 4 preview"></div>
+	<br />
+	See which queues apply to which setups.
+	<br />
+	<br />
+
+	Queue:
+	<input type="text" id="bag 4 queue" />
+	<br />
+	<br />
+	<div id="container 4"></div>
+    <br />
+
+    Bag 5 (of 14L path): This is 100% PC with 2 OSZ ball minimals. Two extra are included to maximize quad PC chance.
+    <br>
+    <br>
+    <label for="bag 5 files">Load bag 5 setup:</label>
+	<select id="bag 5 files" name="bag 5 files"></select>
+	<button type="button" onclick="loadIncludedFile(5)">Load</button>
+
+	<div id="setup 5 preview"></div>
+	<br />
+	See which queues apply to which setups.
+	<br />
+	<br />
+
+	Queue:
+	<input type="text" id="bag 5 queue" />
+	<br />
+	<br />
+	<div id="container 5"></div>
+    <br />
+</html>
