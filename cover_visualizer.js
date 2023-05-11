@@ -149,15 +149,35 @@ document.getElementById('queue').addEventListener('keyup', (event) => {
 			if (entry[0] == queue) {
 				found = true;
 				solutions = [];
+				comments = [];
 				for (i = 0; i < entry.length; i++) {
-					if (entry[i] == 'O') solutions.push(data[0][i]);
+					if (entry[i] == 'O') {
+						solutions.push(data[0][i]);
+						comments.push(data[1][i]);
+						
+					}
 				}
 
 				solutions = unglueFumen(solutions);
 
                 if (document.getElementById('mirror').checked) solutions = mirrorFumen(solutions);
 
-				fumenrender(solutions, container);
+				if (data[1][0] == 'comments') {
+					if (document.getElementById('mirror').checked) {
+						mirrored_comments = [];
+						comments.forEach((comment) => {
+							pieces = [...comment.matchAll(/[TLJSZIO]_tetramino/g)]; // yay regex
+							pieces.forEach((piece) => {
+								piece_name = piece[0];
+								mirrored = reverseMappingLetters[piece_name[0]] + '_tetramino';
+								comment = comment.replace(piece_name, mirrored);
+							});
+							mirrored_comments.push(comment);
+						});
+						fumenrender(solutions, container, mirrored_comments);
+					}
+					else fumenrender(solutions, container, comments);
+				} else fumenrender(solutions, container);
 
 				if (solutions.length == 0) console.log('No valid solutions for this queue.');
 				return;
