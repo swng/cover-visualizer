@@ -168,7 +168,7 @@ async function search(bag_num) {
                         for (piece of leftover_queue) { // upcoming pieces is a fresh bag minus the leftover queue pieces
                             upcoming_pieces = upcoming_pieces.replace(piece, "");
                         }
-                        if (setup_name == "sandbox") upcoming_pieces += "I"; // special case, sandbox keeps the old I in hold
+                        if (setup_name == "sandbox" && !leftover_queue.substring(1).includes('I')) upcoming_pieces += "I"; // special case, sandbox keeps the old I in hold
                         
                         let upcoming_queues = generate_all_permutations(upcoming_pieces).map(q => leftover_queue + q.join(''));
 
@@ -213,7 +213,6 @@ async function search(bag_num) {
                 //     url.searchParams.set("held_piece", held_piece);
                 //     url.searchParams.set("setup", setup_name);
                 //     window.history.replaceState(null, '', url);
-                    console.log("hi")
 
                     document.getElementById('bag 2 files').value = setup_name + " cover.csv";
                     await loadIncludedFile(2);
