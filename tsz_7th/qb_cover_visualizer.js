@@ -233,8 +233,16 @@ async function search(bag_num) {
                             }
 
                             let avg_score = all_scores.reduce((a, b) => a + b) / all_scores.length;
-                            comments.push(data[0][1][i] + " - " + successes/upcoming_queues.length * 100 + "% - " + avg_score);
+                            // comments.push(data[0][1][i] + " - " + successes/upcoming_queues.length * 100 + "% - " + avg_score);
                             solutions.push(data[0][0][i]);
+
+                            let insert_index = 0;
+                            for (j = 0; j < comments.length; j++) {
+                                if (parseFloat(comments[j].split(' ').pop()) > avg_score) insert_index = j+1;
+                                // if (max_score_obj !== pick_better_score(max_score_obj, comments[j])) insert_index = j+1;
+                            }
+                            comments.splice(insert_index, 0, data[0][1][i] + " - " + avg_score);
+                            solutions.splice(insert_index, 0, solutions.pop());
                         }
 
 
