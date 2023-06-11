@@ -1,0 +1,161 @@
+<html>
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+	<script src="../utils/jquery-csv.js"></script>
+
+	<script src="../utils/tetris-fumen.js"></script>
+	<script type="text/javascript" src="../utils/LZWEncoder.js"></script>
+	<script type="text/javascript" src="../utils/NeuQuant.js"></script>
+	<script type="text/javascript" src="../utils/GIFEncoder.js"></script>
+	<script type="text/javascript" src="../utils/b64.js"></script>
+
+    <script src="../utils/mirrorFumen.js"></script>
+	<script src="../utils/unglueFumen.js"></script>
+	<script src="../utils/fumen-render.js"></script>
+	<script defer src="./cover_visualizer.js"></script>
+    <script src="../utils/get_score.js"></script>
+
+    <link rel="stylesheet" type="text/css" href="../cover_visualizer.css" />
+    <link rel="icon" href="https://media.discordapp.net/attachments/1051419206148685894/1117529652391583784/BDMLvanEHDQAAAABJRU5ErkJggg.png">
+
+	<head>
+		<meta
+			property="og:image"
+			content="https://media.discordapp.net/attachments/1051419206148685894/1117529652391583784/BDMLvanEHDQAAAABJRU5ErkJggg.png"
+		/>
+		<title>PCO</title>
+	</head>
+	<body>
+		<h1>PCO</h1>
+		This is a setup that exists. Guide source: <a href="https://tinyurl.com/y5ssp7cl">this fumen</a> and other sources like <a href="https://four.lol/perfect-clears/opener">four.lol</a> too. 
+        <br>
+        PCO is 14L loop invented by MLurker.
+	</body>
+	<br />
+	<br />
+
+    <input type="checkbox" id="mirror" name="mirror" value = false />
+	<label for="mirror"> Mirror</label>
+
+    <br>
+    <br>
+    PCO has a 100% buildrate when including mirrors and the alt build.
+    <br>
+    Hold I_tetramino: 48.61% one orientation, 60.24% including mirror.
+    <br>
+    7p PCO:
+    <br>
+    One orientation: 96.67% without alt build, 99.13% with alt build.
+    <br>
+    Including mirror: 99.29% without alt build, 100% with alt build.
+    <br>
+    <br>
+
+	<label for="bag 1 files">Load bag 1 setup:</label>
+	<select id="bag 1 files" name="bag 1 files"></select>
+	<button type="button" onclick="loadIncludedFile(1)">Load</button>
+
+	<div id="setup 1 preview"></div>
+	<br />
+	See which queues apply to which setups.
+	<br />
+	<br />
+
+	Queue:
+	<input type="text" id="bag 1 queue" />
+	<br />
+	<br />
+	<div id="container 1"></div>
+    <br />
+
+    Bag 2, you have couple options:
+    <br>
+    <a href="https://tinyurl.com/y5ssp7cl">MLurker's 5-4 upstack</a> is 100%
+    <br>
+    For 4L PC, you have 85.36% PC chance if you held I_tetramino and 61.1% PC chance for the full 7p build.
+    <br>
+    There is also a guaranteed 2nd PC recovery into <a href="https://tetris.johnbeak.cz/2nd/minimal.php#factory_ot">Factory</a>.
+    <br>
+    <br>
+    (make sure to start your search queue with I_tetramino for the 6p setup obviously)
+    <br>
+    Some advice for going into better 2nd, in order of relevance: avoid going into dupe I_tetramino 2nd, that's unfamiliar territory. Try to save T_tetramino. If you use T_tetramino, try to use an even number of L_tetraminoJ_tetramino for columnar parity reasons. And prefer to save I_tetramino over O_tetramino.
+    <br>
+    <br>
+
+    <label for="bag 2 files">Load bag 2 setup:</label>
+	<select id="bag 2 files" name="bag 2 files"></select>
+	<button type="button" onclick="loadIncludedFile(2)">Load</button>
+
+	<div id="setup 2 preview"></div>
+	<br />
+	See which queues apply to which setups.
+	<br />
+	<br />
+
+	Queue:
+	<input type="text" id="bag 2 queue" />
+	<br />
+	<br />
+	<div id="container 2"></div>
+    <br />
+
+    Bag 3 - continue the 5-4 upstack - 100% TSD:
+    <br>
+    <br>
+    <label for="bag 3 files">Load bag 3 setup:</label>
+	<select id="bag 3 files" name="bag 3 files"></select>
+	<button type="button" onclick="loadIncludedFile(3)">Load</button>
+
+	<div id="setup 3 preview"></div>
+	<br />
+	See which queues apply to which setups.
+	<br />
+	<br />
+
+	Queue:
+	<input type="text" id="bag 3 queue" />
+	<br />
+	<br />
+	<div id="container 3"></div>
+    <br />
+
+    Bag 4 - continue the 5-4 upstack - 100% TSD and quad with congruent forms:
+    <br>
+    <br>
+    <label for="bag 4 files">Load bag 4 setup:</label>
+	<select id="bag 4 files" name="bag 4 files"></select>
+	<button type="button" onclick="loadIncludedFile(4)">Load</button>
+
+	<div id="setup 4 preview"></div>
+	<br />
+	See which queues apply to which setups.
+	<br />
+	<br />
+
+	Queue:
+	<input type="text" id="bag 4 queue" />
+	<br />
+	<br />
+	<div id="container 4"></div>
+    <br />
+
+    Bag 5 - 97.46% PC with 8 minimals:
+    <br>
+    <br>
+    <label for="bag 5 files">Load bag 5 setup:</label>
+	<select id="bag 5 files" name="bag 5 files"></select>
+	<button type="button" onclick="loadIncludedFile(5)">Load</button>
+
+	<div id="setup 5 preview"></div>
+	<br />
+	See which queues apply to which setups.
+	<br />
+	<br />
+
+	Queue:
+	<input type="text" id="bag 5 queue" />
+	<br />
+	<br />
+	<div id="container 5"></div>
+    <br />
+</html>
