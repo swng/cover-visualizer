@@ -14,7 +14,7 @@ DPC_files = {
     I: ['I-01.csv', 'I-01M.csv', 'I-01-1.csv', 'I-01-1M.csv', 'I-01-2.csv', 'I-01-2M.csv', 'I-02.csv', 'I-02M.csv', 'I-02-1.csv', 'I-02-1M.csv', 'I-02-2.csv', 'I-02-2M.csv', 'I-03.csv', 'I-03M.csv', 'I-04.csv', 'I-04M.csv', 'I-05.csv', 'I-05M.csv', 'I-06.csv', 'I-06M.csv', 'I-07.csv', 'I-07M.csv', 'I-08M.csv', 'I-08.csv', 'I-09.csv', 'I-09M.csv', 'I-10.csv', 'I-10M.csv', 'I-11.csv', 'I-11M.csv', 'I-12.csv', 'I-12M.csv', 'I-13.csv', 'I-13M.csv'],
     J: ['J-01.csv', 'J-02.csv', 'J-02-1.csv', 'J-03.csv', 'J-04.csv', 'J-04-1.csv', 'J-05.csv', 'J-06.csv', 'J-06-1.csv', 'J-07.csv', 'J-08.csv'],
     L: ['L-01.csv', 'L-02.csv', 'L-02-1.csv', 'L-03.csv', 'L-04.csv', 'L-04-1.csv', 'L-05.csv', 'L-06.csv', 'L-06-1.csv', 'L-07.csv', 'L-08.csv'],
-    T: ['T-01.csv', 'T-02.csv', 'T-02M.csv', 'T-03.csv', 'T-03M.csv', 'T-04.csv', 'T-04M.csv']
+    T: ['T-01.csv', 'T-02.csv', 'T-02M.csv', 'T-03.csv', 'T-03M.csv', 'T-04.csv', 'T-04M.csv', 'T-05.csv', 'T-05M.csv']
 }
 
 // populate dropdowns for each bag with files
