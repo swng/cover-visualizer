@@ -1,7 +1,7 @@
 // v1.9
 
 const GAMES = { JSTRIS: {}, TETRIO: {}, GUIDELINE: {} };
-const GAME = GAMES.JSTRIS;
+const GAME = GAMES.TETRIO;
 
 let score_table_normal    = [   0,  100,  300,  500,  800];
 let score_table_spin      = [ 400,  800, 1200, 1600];
@@ -356,7 +356,7 @@ function t_spin_checker(op, field) { // returns -1 if not t spin; otherwise, ret
 
 	// XXX probably wrong on e.g. v115@zgB8HeA8IeA8AeI8BeH8CeF8JetJJ and the mirror
 
-	if (GAME === GAME.TETRIO) {
+	if (GAME === GAMES.TETRIO) {
 		// not possible to get 180 t-spins on Jstris or guideline
 		let r180 = spin_180(op.copy());
 		let r180_kicks = get_180_kicks(r180, op.rotation);
