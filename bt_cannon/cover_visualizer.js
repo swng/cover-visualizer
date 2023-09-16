@@ -243,6 +243,23 @@ function search(bag_num) {
             fumenrender([], container);
         }
     }
+
+	if (bag_num == 4) {
+        for (figure of container.children) {
+            let setup_name = figure.lastChild.lastChild.textContent.split('/')[0]; // bruh
+			// split completely unecessary atm here but keeping just in case we add more rich comments
+            setup_name = `bt bag 5 ${setup_name} cover`;
+            if (files[4].includes(setup_name + ".csv")) { // 4 is index 4, (bag 5 data because we 0-index)
+                figure.onclick = async function () {
+                    document.getElementById('bag 5 files').value = setup_name + ".csv";
+                    await loadIncludedFile(5);
+                    search(5);
+                };
+            }
+        }
+    }
+
+
     render_mino_font();
 }
 
