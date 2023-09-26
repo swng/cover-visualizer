@@ -1,0 +1,159 @@
+<html>
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+	<script src="../utils/jquery-csv.js"></script>
+
+	<script src="../utils/tetris-fumen.js"></script>
+	<script type="text/javascript" src="../utils/LZWEncoder.js"></script>
+	<script type="text/javascript" src="../utils/NeuQuant.js"></script>
+	<script type="text/javascript" src="../utils/GIFEncoder.js"></script>
+	<script type="text/javascript" src="../utils/b64.js"></script>
+
+    <script src="../utils/mirrorFumen.js"></script>
+	<script src="../utils/unglueFumen.js"></script>
+	<script src="../utils/fumen-render.js"></script>
+	<script defer src="./cover_visualizer.js"></script>
+
+    <link rel="stylesheet" type="text/css" href="../cover_visualizer.css" />
+    <link rel="icon" href="https://cdn.discordapp.com/attachments/988162595053789304/1155993149039198238/g93Wepv7fAv2HKV3XWT0xcAAAAASUVORK5CYII.png">
+
+	<head>
+        <meta
+			property="og:image"
+			content="https://cdn.discordapp.com/attachments/988162595053789304/1155993149039198238/g93Wepv7fAv2HKV3XWT0xcAAAAASUVORK5CYII.png"
+		/>
+		<title>lovemantis' Amazing Table</title>
+	</head>
+	<body>
+		<h1>lovemantis' Amazing Table</h1>
+		This is a setup that exists. Guide Source: <a href="https://www.youtube.com/watch?v=IT253XfrpKs">this YT vid</a>. 
+        <br>
+            <br>
+        This monstrosity was built by lovemantis, Hisui-san, Dotsu? It builds a c-spin into a 14L PC or something idk
+	</body>
+	<br />
+	<br />
+
+    <input type="checkbox" id="mirror" name="mirror" value = false />
+	<label for="mirror"> Mirror</label>
+
+    <br>
+    <br>
+    Bag 1, waste T_tetramino to set up the base. 43.49% cover in one direction; 74.52% with mirror.
+    <br>
+    <br>
+
+	<label for="bag 1 files">Load bag 1 setup:</label>
+	<select id="bag 1 files" name="bag 1 files"></select>
+	<button type="button" onclick="loadIncludedFile(1)">Load</button>
+
+	<div id="setup 1 preview"></div>
+	<br />
+	See which queues apply to which setups.
+	<br />
+	<br />
+
+	Queue:
+	<input type="text" id="bag 1 queue" />
+	<br />
+	<br />
+	<div id="container 1"></div>
+    <br />
+
+    Bag 2 - complete the c-spin shape. 100% cover with O_tetraminoS_tetraminoZ_tetraminoball congruence.
+    <br>
+    <br>
+
+
+
+    <label for="bag 2 files">Load bag 2 setup:</label>
+	<select id="bag 2 files" name="bag 2 files"></select>
+	<button type="button" onclick="loadIncludedFile(2)">Load</button>
+
+	<div id="setup 2 preview"></div>
+	<br />
+	See which queues apply to which setups.
+	<br />
+	<br />
+
+	Queue:
+	<input type="text" id="bag 2 queue" />
+	<br />
+	<br />
+	<div id="container 2"></div>
+    <br />
+
+    Bag 3 - there are two paths with exceptional boardstate here: L_tetramino>O_tetramino and O_tetramino>L_tetramino. Path a has (very marginally) higher 14L PC chance and TSD/quad chance 14L PC sol.
+    <br>
+    <br>
+    <label for="bag 3 files">Load bag 3 setup:</label>
+	<select id="bag 3 files" name="bag 3 files"></select>
+	<button type="button" onclick="loadIncludedFile(3)">Load</button>
+
+	<div id="setup 3 preview"></div>
+	<br />
+	See which queues apply to which setups.
+	<br />
+	<br />
+
+	Queue:
+	<input type="text" id="bag 3 queue" />
+	<br />
+	<br />
+	<div id="container 3"></div>
+    
+    <br />
+
+    Tip: The S_tetramino tuck under L_tetramino/O_tetramino can be non-trivial with instant sd if I_tetramino hasn't been placed as a platform first. There exists an SRS kick to kick it upwards though. Try this input sequence to place S: softDrop,rotateCCW,rotateCCW,rotateCCW,DAS_right.
+    <br>
+    
+        <img src="https://cdn.discordapp.com/attachments/1051419206148685894/1156003415021867078/ye.gif" alt="softDrop,rotateCCW,rotateCCW,rotateCCW,DAS_right" style = "width: 200px; height: auto; margin-top: 10px; margin-left: 50px">
+    <br>
+    <br>
+
+    Bag 4
+    <br>
+    Path a and b have 100% builds for this bag.
+    <br>
+    <br>
+    <label for="bag 4 files">Load bag 4 setup:</label>
+	<select id="bag 4 files" name="bag 4 files"></select>
+	<button type="button" onclick="loadIncludedFile(4)">Load</button>
+
+	<div id="setup 4 preview"></div>
+	<br />
+	See which queues apply to which setups.
+	<br />
+	<br />
+
+	Queue:
+	<input type="text" id="bag 4 queue" />
+	<br />
+	<br />
+	<div id="container 4"></div>
+    <br />
+
+    <br />
+    Bag 5
+    <br>
+    Path a: 100% PC (with 180s). 14 minimals. With these 14 minimals, you have 79.76% chance of TSD and 13.33% of quad in the PC sol. 
+    <br>
+    Path b: 98.85% PC with 14 minimals. With these 14 minimals, you have 77.58% chance of TSD in the PC sol.
+    <br>
+    <label for="bag 5 files">Load bag 5 setup:</label>
+	<select id="bag 5 files" name="bag 5 files"></select>
+	<button type="button" onclick="loadIncludedFile(5)">Load</button>
+
+	<div id="setup 5 preview"></div>
+	<br />
+	See which queues apply to which setups.
+	<br />
+	<br />
+
+	Queue:
+	<input type="text" id="bag 5 queue" />
+	<br />
+	<br />
+	<div id="container 5"></div>
+    <br />
+
+</html>
