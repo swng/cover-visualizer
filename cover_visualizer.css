@@ -59,3 +59,7 @@ body{background: rgb(23, 23, 23) !important; color: rgb(183, 183, 183)}
         color: rgb(183, 183, 183);
         border-color: #a4afaf;
     }
+    a:link { color: lightskyblue; }
+    a:visited { color: #6d4b8d; }
+    a:hover { color: #ffffff; }
+    a:active { color: #ff4040; text-decoration:none; font-weight:normal; }
