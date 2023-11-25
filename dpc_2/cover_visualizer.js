@@ -4,7 +4,7 @@ data = [[], []];
 data_nohold = [undefined, undefined];
 setup = ['v115@vhAAgH', 'v115@vhAAgH'];
 files = [
-	['O.csv', 'S.csv', 'Z.csv', 'I.csv', 'T.csv'], // setup
+	['O.csv', 'S.csv', 'Z.csv', 'I.csv', 'T.csv', 'L.csv', 'J.csv'], // setup
 ];
 DPC_files = {
     O:
