@@ -4,11 +4,12 @@ data = [[], []];
 data_nohold = [undefined, undefined];
 setup = ['v115@vhAAgH', 'v115@vhAAgH'];
 files = [
-	['T.csv'], // setup
+	['T.csv', 'J.csv'], // setup
 ];
 SPC_files = {
     T: ['T-s-01.csv','T-s-01M.csv','T-s-02.csv','T-s-02M.csv','T-s-03.csv','T-s-03M.csv','T-s-04.csv','T-s-04M.csv','T-s-05.csv','T-s-05M.csv','T-s-06.csv','T-s-06M.csv','T-s-07.csv','T-s-07M.csv','T-s-08.csv','T-s-08M.csv','T-s-09.csv','T-s-09M.csv','T-s-10.csv','T-s-10M.csv','T-s-11.csv','T-s-11M.csv','T-s-12.csv','T-s-12M.csv','T-s-13.csv','T-s-13M.csv','T-s-14.csv','T-s-14M.csv','T-s-15.csv','T-s-15M.csv','T-s-15.csv','T-s-15M.csv','T-s-16.csv','T-s-16M.csv','T-s-17.csv','T-s-17M.csv','T-s-18.csv','T-s-18M.csv','T-s-19.csv','T-s-19M.csv','T-s-20.csv','T-s-20M.csv','T-s-20.csv','T-s-20M.csv','T-s-21.csv','T-s-21M.csv','T-s-22.csv','T-s-22M.csv','T-s-23.csv','T-s-23M.csv','T-s-23.csv','T-s-23M.csv','T-s-23M.csv','T-s-23.csv','T-s-24.csv','T-s-24M.csv','T-s-25.csv','T-s-25M.csv','T-s-25.csv','T-s-25M.csv','T-s-26.csv','T-s-26M.csv','T-s-27.csv','T-s-27M.csv','T-s-28.csv','T-s-28M.csv','T-s-29.csv','T-s-29M.csv','T-s-30.csv','T-s-30M.csv','T-s-31.csv','T-s-31M.csv','T-s-32.csv','T-s-32M.csv','T-s-33.csv','T-s-33M.csv','T-s-34.csv','T-s-34M.csv','T-s-35.csv','T-s-35M.csv','T-s-36.csv','T-s-36.csv','T-s-36M.csv','T-s-36M.csv','T-s-37.csv','T-s-37M.csv','T-s-38.csv','T-s-38M.csv','T-s-39.csv','T-s-39M.csv','T-s-40.csv','T-s-40M.csv','T-s-41.csv','T-s-41M.csv','T-s-42.csv','T-s-42M.csv','T-s-43.csv','T-s-43M.csv','T-s-44.csv','T-s-44M.csv','T-s-45.csv','T-s-45M.csv','T-s-46.csv','T-s-46M.csv'
-]
+],
+	J: ['J-s-01.csv', 'J-s-01M.csv', 'J-s-02.csv', 'J-s-02M.csv', 'J-s-03.csv', 'J-s-04.csv', 'J-s-04M.csv', 'J-s-05.csv', 'J-s-06.csv', 'J-s-06M.csv', 'J-s-07.csv', 'J-s-08.csv', 'J-s-09.csv', 'J-s-10.csv', 'J-s-10M.csv', 'J-s-11.csv', 'J-s-12.csv', 'J-s-12M.csv', 'J-s-13.csv', 'J-s-14.csv', 'J-s-15.csv', 'J-s-16.csv', 'J-s-17.csv', 'J-s-17M.csv', 'J-s-18.csv', 'J-s-19.csv', 'J-s-20.csv', 'J-s-21.csv', 'J-s-22.csv', 'J-s-23.csv', 'J-s-24.csv', 'J-s-24M.csv', 'J-s-25.csv', 'J-s-26.csv', 'J-s-27.csv', 'J-s-28.csv', 'J-s-29.csv', 'J-s-29M.csv', 'J-s-30.csv', 'J-s-31.csv', 'J-s-32.csv', 'J-s-32M.csv', 'J-s-33.csv', 'J-s-34.csv', 'J-s-35.csv', 'J-s-36.csv', 'J-s-37.csv', 'J-s-38.csv', 'J-s-39.csv', 'J-s-40.csv', 'J-s-41.csv', 'J-s-42.csv', 'J-s-43.csv', 'J-s-44.csv', 'J-s-45.csv', 'J-s-46.csv', 'J-s-47.csv', 'J-s-48.csv', 'J-s-49.csv', 'J-s-50.csv', 'J-s-50M.csv']
 }
 
 // populate dropdowns for each bag with files
