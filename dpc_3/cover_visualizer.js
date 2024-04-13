@@ -4,7 +4,7 @@ data = [[], []];
 data_nohold = [undefined, undefined];
 setup = ['v115@vhAAgH', 'v115@vhAAgH'];
 files = [
-	['O.csv', 'I.csv', 'S.csv', 'Z.csv', 'T.csv', 'J.csv'], // setup
+	['O.csv', 'I.csv', 'S.csv', 'Z.csv', 'T.csv', 'J.csv', "L.csv"], // setup
 ];
 DPC_files = {
     O:
@@ -18,7 +18,9 @@ DPC_files = {
 	T:
 	['T-01.csv','T-01M.csv','T-02.csv','T-02M.csv','T-03.csv','T-03M.csv','T-04.csv','T-04M.csv','T-05.csv','T-05M.csv','T-06.csv','T-06M.csv','T-07.csv','T-07M.csv','T-08.csv','T-08M.csv','T-09.csv','T-09M.csv','T-10.csv','T-10M.csv','T-11.csv','T-11M.csv','T-12.csv','T-12M.csv','T-13.csv','T-13M.csv','T-14.csv','T-14M.csv','T-15.csv','T-15M.csv','T-16.csv','T-16M.csv','T-17.csv','T-17M.csv','T-18.csv','T-18M.csv','T-19.csv','T-19M.csv','T-20.csv','T-20M.csv','T-21.csv','T-21M.csv','T-22.csv','T-22M.csv','T-23.csv','T-23M.csv','T-24.csv','T-24M.csv','T-25.csv','T-25M.csv','T-26.csv','T-26M.csv','T-27.csv','T-27M.csv','T-28.csv','T-28M.csv','T-29.csv','T-29M.csv','T-30.csv','T-30M.csv','T-31.csv','T-31M.csv','T-32.csv','T-32M.csv','T-33.csv','T-33M.csv','T-34.csv','T-34M.csv','T-35.csv','T-35M.csv','T-36.csv','T-36M.csv','T-37.csv','T-37M.csv','T-38.csv','T-38M.csv','T-39.csv','T-39M.csv','T-40.csv','T-40M.csv','T-41.csv','T-41M.csv','T-42.csv','T-42M.csv','T-43.csv','T-43M.csv','T-44.csv','T-44M.csv','T-45.csv','T-45M.csv','T-46.csv','T-46M.csv','T-47.csv','T-47M.csv','T-48.csv','T-48M.csv','T-49.csv','T-49M.csv','T-50.csv','T-50M.csv','T-51.csv','T-51M.csv','T-52.csv','T-52M.csv','T-53.csv','T-53M.csv','T-54.csv','T-54M.csv','T-55.csv','T-55M.csv','T-56.csv','T-56M.csv','T-57.csv','T-57M.csv','T-58.csv','T-58M.csv','T-59.csv','T-59M.csv','T-60.csv','T-60M.csv','T-61.csv','T-61M.csv','T-62.csv','T-62M.csv','T-63.csv','T-63M.csv','T-64.csv','T-64M.csv','T-65.csv'],
 	J:
-	['J-01.csv','J-02.csv','J-03.csv','J-04.csv','J-05.csv','J-06.csv','J-07.csv','J-08.csv','J-09.csv','J-10.csv','J-11.csv','J-12.csv','J-13.csv','J-13M.csv','J-14.csv','J-15.csv','J-16.csv','J-17.csv','J-18.csv','J-19.csv','J-20.csv','J-21.csv','J-22.csv','J-23.csv','J-24.csv','J-25.csv','J-25M.csv','J-26.csv','J-27.csv','J-28.csv','J-29.csv','J-30.csv','J-31.csv','J-31M.csv','J-32.csv','J-33.csv','J-34.csv','J-35.csv','J-36.csv','J-37.csv','J-38.csv','J-39.csv','J-40.csv','J-41.csv','J-42.csv','J-43.csv','J-43M.csv','J-44.csv','J-45.csv','J-46.csv','J-47.csv','J-48.csv','J-49.csv','J-49M.csv','J-50.csv','J-51.csv','J-52.csv','J-53.csv','J-53M.csv','J-54.csv','J-55.csv']
+	['J-01.csv','J-02.csv','J-03.csv','J-04.csv','J-05.csv','J-06.csv','J-07.csv','J-08.csv','J-09.csv','J-10.csv','J-11.csv','J-12.csv','J-13.csv','J-13M.csv','J-14.csv','J-15.csv','J-16.csv','J-17.csv','J-18.csv','J-19.csv','J-20.csv','J-21.csv','J-22.csv','J-23.csv','J-24.csv','J-25.csv','J-25M.csv','J-26.csv','J-27.csv','J-28.csv','J-29.csv','J-30.csv','J-31.csv','J-31M.csv','J-32.csv','J-33.csv','J-34.csv','J-35.csv','J-36.csv','J-37.csv','J-38.csv','J-39.csv','J-40.csv','J-41.csv','J-42.csv','J-43.csv','J-43M.csv','J-44.csv','J-45.csv','J-46.csv','J-47.csv','J-48.csv','J-49.csv','J-49M.csv','J-50.csv','J-51.csv','J-52.csv','J-53.csv','J-53M.csv','J-54.csv','J-55.csv'],
+	L:
+	['L-01.csv','L-02.csv','L-03.csv','L-04.csv','L-05.csv','L-06.csv','L-07.csv','L-08.csv','L-09.csv','L-10.csv','L-11.csv','L-12.csv','L-13.csv','L-13M.csv','L-14.csv','L-15.csv','L-16.csv','L-17.csv','L-18.csv','L-19.csv','L-20.csv','L-21.csv','L-22.csv','L-23.csv','L-24.csv','L-25.csv','L-25M.csv','L-26.csv','L-27.csv','L-28.csv','L-29.csv','L-30.csv','L-31.csv','L-31M.csv','L-32.csv','L-33.csv','L-34.csv','L-35.csv','L-36.csv','L-37.csv','L-38.csv','L-39.csv','L-40.csv','L-41.csv','L-42.csv','L-43.csv','L-43M.csv','L-44.csv','L-45.csv','L-46.csv','L-47.csv','L-48.csv','L-49.csv','L-49M.csv','L-50.csv','L-51.csv','L-52.csv','L-53.csv','L-53M.csv','L-54.csv','L-55.csv']
 }
 
 // populate dropdowns for each bag with files
