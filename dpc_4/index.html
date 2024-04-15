@@ -1,0 +1,81 @@
+<html>
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+	<script src="../utils/jquery-csv.js"></script>
+
+	<script src="../utils/tetris-fumen.js"></script>
+	<script type="text/javascript" src="../utils/LZWEncoder.js"></script>
+	<script type="text/javascript" src="../utils/NeuQuant.js"></script>
+	<script type="text/javascript" src="../utils/GIFEncoder.js"></script>
+	<script type="text/javascript" src="../utils/b64.js"></script>
+
+    <script src="../utils/mirrorFumen.js"></script>
+	<script src="../utils/unglueFumen.js"></script>
+	<script src="../utils/fumen-render.js"></script>
+	<script defer src="./cover_visualizer.js"></script>
+    <script src="../utils/get_score.js"></script>
+
+    <link rel="stylesheet" type="text/css" href="../cover_visualizer.css" />
+
+	<head>
+		<title>DPC 4</title>
+	</head>
+	<body>
+		<h1>DPC</h1>
+		This is a page of bruteforce-generated 98%+ DPCs and SPCs. Data is calculated with tetrio 180s kicktable. SPC score data was normalized with a -400 before combining with DPC.
+		<br>
+		For a curated set of more human-used setups, see <a href="../dpc/">the main DPC page</a>. 
+        <br>
+        DPC is a setup for a T-Spin Double ▸ Perfect Clear. It requires an empty field after eight cleared lines. With the setup using one leftover piece + one bag for the setup.								
+	</body>
+	<br />
+	<br />
+
+    <input type="checkbox" id="mirror" name="mirror" value = false />
+	<label for="mirror"> Mirror</label>
+
+    <br>
+    <br>
+    Setup: You should have an empty field with 1 piece in hold followed by a fresh bag. Build a DPC setup:
+    <br>
+    <br>
+
+	<label for="bag 1 files">Load DPC setup:</label>
+	<select id="bag 1 files" name="bag 1 files"></select>
+	<button type="button" onclick="loadIncludedFile(1)">Load</button>
+
+	<div id="setup 1 preview"></div>
+	<br />
+	See which queues apply to which setups.
+	<br />
+	<br />
+
+	Queue:
+	<input type="text" id="bag 1 queue" />
+    <button type="button" onclick="search(1)">Search</button>
+	<br />
+	<br />
+	<div id="container 1"></div>
+    <br />
+
+    Solution:
+    <br>
+    <br>
+
+    <label for="bag 2 files">Load <span class="o_mino" id="hold_piece"></span> DPC solution:</label>
+	<select id="bag 2 files" name="bag 2 files"></select>
+	<button type="button" onclick="loadIncludedFile(2)">Load</button>
+
+	<div id="setup 2 preview"></div>
+	<br />
+	See which queues apply to which solutions.
+	<br />
+	<br />
+
+	Queue:
+	<input type="text" id="bag 2 queue" />
+    <button type="button" onclick="search(2)">Search</button>
+	<br />
+	<br />
+	<div id="container 2"></div>
+    <br />
+</html>
