@@ -7,6 +7,7 @@ files = [
 	['tsar cannon bag 1 cover.csv'], // bag 1
 	['tsar cannon bag 2 cover.csv'], // bag 2
 	[
+		'tsar cannon bag 3 8L score minimals cover.csv',
 		'tsar cannon bag 3 8L minimals cover.csv',
         'tsar cannon bag 3 8L uniques cover.csv',
         'tsar cannon bag 3 14L path cover.csv',
